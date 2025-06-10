@@ -1,0 +1,223 @@
+<?php
+// File: proyek_jaya/absensi/catat.php
+
+require_once '../config.php';
+
+// 1. Autentikasi & Otorisasi: HANYA Mandor
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'mandor') {
+    $_SESSION['pesan_error'] = "AKSES DITOLAK: Halaman ini hanya untuk Mandor.";
+    header('Location: ' . BASE_URL . 'dashboard.php');
+    exit;
+}
+if (!isset($_SESSION['id_pekerja_ref']) || empty($_SESSION['id_pekerja_ref'])) {
+    $_SESSION['pesan_error'] = "Data pekerja untuk akun Mandor Anda tidak ditemukan. Harap hubungi Super Admin.";
+    header('Location: ' . BASE_URL . 'dashboard.php');
+    exit;
+}
+
+$id_mandor_login = $_SESSION['id_pekerja_ref'];
+$user_role = $_SESSION['role'];
+
+// 2. Ambil daftar proyek aktif yang dipegang oleh Mandor ini
+$query_proyek_mandor = "SELECT id_projek, namaprojek FROM projek WHERE id_mandor_pekerja = ? AND status = 'active' ORDER BY namaprojek ASC";
+$stmt_proyek_mandor = mysqli_prepare($koneksi, $query_proyek_mandor);
+$daftar_proyek_mandor = [];
+if ($stmt_proyek_mandor) {
+    mysqli_stmt_bind_param($stmt_proyek_mandor, "i", $id_mandor_login);
+    mysqli_stmt_execute($stmt_proyek_mandor);
+    $result_proyek = mysqli_stmt_get_result($stmt_proyek_mandor);
+    $daftar_proyek_mandor = mysqli_fetch_all($result_proyek, MYSQLI_ASSOC);
+    mysqli_stmt_close($stmt_proyek_mandor);
+}
+
+// 3. Tangani pemilihan proyek dan tanggal dari form filter
+$id_projek_terpilih = isset($_GET['id_projek']) ? intval($_GET['id_projek']) : null;
+$tanggal_terpilih = isset($_GET['tanggal']) ? $_GET['tanggal'] : date('Y-m-d'); 
+
+// Otomatis pilih proyek jika mandor hanya punya 1 proyek aktif
+if (count($daftar_proyek_mandor) === 1 && is_null($id_projek_terpilih)) {
+    $id_projek_terpilih = $daftar_proyek_mandor[0]['id_projek'];
+}
+
+// 4. Jika proyek dan tanggal sudah dipilih, ambil daftar pekerja yang ditugaskan & data absensi yang sudah ada
+$daftar_pekerja_absen = [];
+$nama_proyek_terpilih = '';
+$is_editable = false; // Default-nya, form tidak bisa diedit
+
+if ($id_projek_terpilih && !empty($tanggal_terpilih)) {
+    // Ambil nama proyek terpilih untuk judul
+    $nama_proyek_terpilih_arr = array_values(array_filter($daftar_proyek_mandor, fn($p) => $p['id_projek'] == $id_projek_terpilih));
+    if(!empty($nama_proyek_terpilih_arr)){
+        $nama_proyek_terpilih = $nama_proyek_terpilih_arr[0]['namaprojek'];
+    }
+
+    // Logika untuk menentukan apakah form bisa diedit atau tidak
+    $today = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+    $date_to_check = new DateTime($tanggal_terpilih);
+    $diff = $today->diff($date_to_check)->days;
+    $is_past = $date_to_check < $today->setTime(0,0,0);
+
+    // Bisa diedit jika tanggalnya adalah hari ini, atau maksimal 2 hari ke belakang
+    if (!$is_past || ($is_past && $diff <= 2) ) {
+        $is_editable = true;
+    }
+    
+    // Cek apakah boleh menambah absensi baru
+    if (date('Y-m-d') != $tanggal_terpilih) {
+        // Query untuk cek apakah sudah ada data di tanggal terpilih
+        $sql_check_existing = "SELECT COUNT(*) as jumlah FROM absensi WHERE id_projek = ? AND tanggal = ?";
+        $stmt_check_existing = mysqli_prepare($koneksi, $sql_check_existing);
+        mysqli_stmt_bind_param($stmt_check_existing, "is", $id_projek_terpilih, $tanggal_terpilih);
+        mysqli_stmt_execute($stmt_check_existing);
+        $is_new_entry_allowed = (mysqli_fetch_assoc(mysqli_stmt_get_result($stmt_check_existing))['jumlah'] == 0);
+        mysqli_stmt_close($stmt_check_existing);
+
+        if($is_new_entry_allowed){ // Jika belum ada data dan tanggal bukan hari ini
+            $is_editable = false; // Tidak boleh tambah baru
+            $_SESSION['pesan_error_crud'] = "Penambahan absensi baru hanya bisa dilakukan untuk tanggal hari ini.";
+        }
+    }
+
+
+    // Query untuk mengambil tim proyek & data absensi mereka jika ada
+    $sql_tim = "SELECT p.id_pekerja, p.namapekerja, j.namajabatan, a.status_hadir, a.lembur, a.keterangan
+                FROM proyek_pekerja pp
+                JOIN pekerja p ON pp.id_pekerja = p.id_pekerja
+                JOIN jabatan j ON p.id_jabatan = j.id_jabatan
+                LEFT JOIN absensi a ON p.id_pekerja = a.id_pekerja AND a.id_projek = pp.id_projek AND a.tanggal = ?
+                WHERE pp.id_projek = ? 
+                  AND pp.is_active = 1
+                  AND ? BETWEEN pp.tanggal_mulai_penugasan AND IFNULL(pp.tanggal_akhir_penugasan, '9999-12-31')
+                ORDER BY p.namapekerja ASC";
+    
+    $stmt_tim = mysqli_prepare($koneksi, $sql_tim);
+    if ($stmt_tim) {
+        mysqli_stmt_bind_param($stmt_tim, "sis", $tanggal_terpilih, $id_projek_terpilih, $tanggal_terpilih);
+        mysqli_stmt_execute($stmt_tim);
+        $result_tim = mysqli_stmt_get_result($stmt_tim);
+        $daftar_pekerja_absen = mysqli_fetch_all($result_tim, MYSQLI_ASSOC);
+        mysqli_stmt_close($stmt_tim);
+    } else {
+        $error_query = "Error mengambil data tim proyek: " . mysqli_error($koneksi);
+    }
+}
+
+// Panggil Header & Sidebar
+require_once '../includes/header.php'; 
+require_once '../includes/sidebar_mandor.php';
+?>
+
+<main class="content-wrapper mt-16 md:ml-72">
+    <div class="max-w-full mx-auto p-4 sm:p-6 lg:p-8"> 
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                <i class="fas fa-calendar-check fa-fw mr-2 text-blue-500"></i>Catat Absensi Harian
+            </h1>
+
+            <form method="GET" action="" class="mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border dark:border-gray-700">
+                <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Pilih Proyek dan Tanggal untuk memulai.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    
+                    <?php if (count($daftar_proyek_mandor) > 1): ?>
+                    <div>
+                        <label for="id_projek" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Pilih Proyek <span class="text-red-500">*</span></label>
+                        <select name="id_projek" id="id_projek" onchange="this.form.submit()" class="mt-1 block w-full rounded-md ...">
+                            <option value="">-- Proyek --</option>
+                            <?php foreach($daftar_proyek_mandor as $proyek_filter): ?>
+                                <option value="<?php echo $proyek_filter['id_projek']; ?>" <?php echo ($id_projek_terpilih == $proyek_filter['id_projek'] ? 'selected' : ''); ?>>
+                                    <?php echo htmlspecialchars($proyek_filter['namaprojek']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <?php elseif (count($daftar_proyek_mandor) === 1): ?>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proyek</label>
+                            <p class="mt-1 p-2 text-base font-semibold text-gray-800 dark:text-white"><?php echo htmlspecialchars($daftar_proyek_mandor[0]['namaprojek']); ?></p>
+                            <input type="hidden" name="id_projek" value="<?php echo $daftar_proyek_mandor[0]['id_projek']; ?>">
+                        </div>
+                    <?php endif; ?>
+
+                    <div>
+                        <label for="tanggal" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Pilih Tanggal Absensi <span class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal" id="tanggal" value="<?php echo htmlspecialchars($tanggal_terpilih); ?>" class="mt-1 block w-full rounded-md ...">
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full inline-flex justify-center py-2 px-4 ... bg-blue-600 ...">
+                            <i class="fas fa-search fa-fw mr-2"></i>Tampilkan Lembar Absen
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <?php if (isset($_SESSION['pesan_error_crud'])) { echo "<div class='mb-4 p-3 bg-red-100...'>" . htmlspecialchars($_SESSION['pesan_error_crud']) . "</div>"; unset($_SESSION['pesan_error_crud']); } ?>
+            <?php if (isset($_SESSION['pesan_sukses'])) { echo "<div class='mb-4 p-3 bg-green-100...'>" . htmlspecialchars($_SESSION['pesan_sukses']) . "</div>"; unset($_SESSION['pesan_sukses']); } ?>
+
+            <?php if ($id_projek_terpilih && empty($error_query)): // Tampilkan form absensi hanya jika proyek dipilih dan tidak ada error query ?>
+                <hr class="my-8 border-gray-300 dark:border-gray-700">
+                <form action="<?php echo BASE_URL; ?>absensi/proses.php?id_projek=<?php echo $id_projek_terpilih; ?>&tanggal=<?php echo $tanggal_terpilih; ?>" method="POST">
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">
+                        Lembar Absensi untuk Proyek "<?php echo $nama_proyek_terpilih; ?>"
+                        - Tanggal: <?php echo date('d M Y', strtotime($tanggal_terpilih)); ?>
+                    </h2>
+                    <?php if (!$is_editable): ?>
+                        <p class="mb-4 p-3 bg-yellow-100 text-yellow-800 rounded-lg">Mode Lihat Saja: Penambahan absensi baru hanya untuk hari ini & periode edit sudah berakhir (lewat dari 2 hari).</p>
+                    <?php endif; ?>
+
+                    <div class="overflow-x-auto shadow-md rounded-lg">
+                        <table class="min-w-full divide-y ...">
+                            <thead class="bg-gray-100 dark:bg-gray-700">
+                                <tr>
+                                    <th class="px-6 py-3 ...">Nama Pekerja (Jabatan)</th>
+                                    <th class="px-6 py-3 text-center ...">Kehadiran</th>
+                                    <th class="px-6 py-3 text-center ...">Lembur</th>
+                                    <th class="px-6 py-3 text-left ...">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 ...">
+                                <?php if (!empty($daftar_pekerja_absen)): ?>
+                                    <?php foreach ($daftar_pekerja_absen as $pekerja): ?>
+                                        <tr>
+                                            <td class="px-6 py-4 ...">
+                                                <div class="font-semibold"><?php echo htmlspecialchars($pekerja['namapekerja']); ?></div>
+                                                <div class="text-xs text-gray-500"><?php echo htmlspecialchars($pekerja['namajabatan']); ?></div>
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <div class="flex justify-center gap-4">
+                                                    <label><input type="radio" name="status_hadir[<?php echo $pekerja['id_pekerja']; ?>]" value="1" <?php echo (isset($pekerja['status_hadir']) && $pekerja['status_hadir'] == 1) ? 'checked' : ''; ?> required <?php if(!$is_editable) echo 'disabled'; ?>> Hadir</label>
+                                                    <label><input type="radio" name="status_hadir[<?php echo $pekerja['id_pekerja']; ?>]" value="0" <?php echo (isset($pekerja['status_hadir']) && $pekerja['status_hadir'] == 0) ? 'checked' : ''; ?> required <?php if(!$is_editable) echo 'disabled'; ?>> Tidak Hadir</label>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <input type="hidden" name="lembur[<?php echo $pekerja['id_pekerja']; ?>]" value="0">
+                                                <input type="checkbox" name="lembur[<?php echo $pekerja['id_pekerja']; ?>]" value="1" class="h-5 w-5 rounded ..." <?php echo (isset($pekerja['lembur']) && $pekerja['lembur'] == 1) ? 'checked' : ''; ?> <?php if(!$is_editable) echo 'disabled'; ?>>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <input type="text" name="keterangan[<?php echo $pekerja['id_pekerja']; ?>]" value="<?php echo htmlspecialchars($pekerja['keterangan'] ?? ''); ?>" class="w-full text-sm rounded-md ..." placeholder="Cth: Sakit, Izin" <?php if(!$is_editable) echo 'readonly'; ?>>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="4" class="text-center p-4">Tidak ada pekerja yang ditugaskan di proyek ini pada tanggal yang dipilih.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <?php if ($is_editable && !empty($daftar_pekerja_absen)): ?>
+                        <div class="mt-6 flex justify-end">
+                            <button type="submit" class="inline-flex items-center px-6 py-3 ... bg-blue-600 ...">
+                                <i class="fas fa-save fa-fw mr-2"></i>
+                                Simpan Absensi
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                </form>
+            <?php endif; ?>
+        </div>
+    </div>
+</main>
+
+<?php
+require_once '../includes/footer.php'; 
+?>
