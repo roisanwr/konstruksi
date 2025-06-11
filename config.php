@@ -28,7 +28,7 @@ mysqli_set_charset($koneksi, "utf8mb4");
 // Sesuaikan dengan alamat di mana kamu akan mengakses proyek ini di browser.
 // Contoh: jika diakses via http://localhost/proyek_jaya/, maka BASE_URL-nya seperti di bawah.
 // JANGAN LUPA tanda slash ('/') di akhir!
-define('BASE_URL', 'https://slategrey-goldfish-226627.hostingersite.com/'); // GANTI SESUAI ALAMAT PROYEKMU!
+define('BASE_URL', 'https://kontraktor.moku-meubel.com/'); // GANTI SESUAI ALAMAT PROYEKMU!
 
 // --- 3. Session ---
 // Memulai session jika belum ada session yang aktif.
