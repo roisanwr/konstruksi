@@ -58,7 +58,25 @@ function format_rupiah($angka) {
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
         .page-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .slip-wrapper { width: 800px; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .header { text-align: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        .header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        .header img {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+            background-color: #fff;
+            box-shadow: 0 0 4px rgba(0,0,0,0.1);
+        }
+        .header-text {
+            display: flex;
+            flex-direction: column;
+        }
         .header h1 { margin: 0; font-size: 24px; color: #1a202c; }
         .header p { margin: 5px 0 0; color: #718096; }
         .info-section { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; }
@@ -87,16 +105,28 @@ function format_rupiah($angka) {
             .page-container { padding: 0; }
             .print-button { display: none; }
             .slip-wrapper { box-shadow: none; border: 1px solid #ccc; border-radius: 0; width: 100%; }
+            .header {
+                border-bottom: 1px solid #ccc;
+                gap: 10px;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+            .header img {
+                height: 40px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="page-container">
-        <button onclick="window.print()" class="print-button">🖨️ Cetak Halaman Ini</button>
+        <button onclick="window.print()" class="print-button">Cetak Halaman Ini</button>
         <div class="slip-wrapper">
             <div class="header">
-                <h1>SLIP GAJI KARYAWAN</h1>
-                <p>PROYEK JAYA KONSTRUKSI</p>
+                <img src="azrina_logo.png" alt="Logo Proyek Jaya Konstruksi minimalis with white background and subtle shadow" />
+                <div class="header-text">
+                    <h1>SLIP GAJI KARYAWAN</h1>
+                    <p>PROYEK JAYA KONSTRUKSI</p>
+                </div>
             </div>
             <div class="info-section">
                 <div>
@@ -148,3 +178,4 @@ function format_rupiah($angka) {
     </div>
 </body>
 </html>
+
