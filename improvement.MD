@@ -64,9 +64,7 @@ Kekurangan: Butuh pengembangan yang lebih signifikan (perubahan struktur tabel, 
 dalam penugasan yang diakses oleh mandor itu hanya yang lagi aktif jika masih planning mandor gak akan bisa melihat bahwa dia penanggung jawabnya, dan jika sudah complete maka dia tidak dapat merubah, menambah, edit atau bahkan hapus dia hanya bisa melihatnya tanpa berbuat apa apa
 
 
-perubahan nonaktif otomatis untuk penugasan ketika waktu akhirnya sudah dilewati
-
-
+perubahan nonaktif otomatis untuk penugasan ketika waktu akhirnya sudah dilewati, dengan konfirmasi
 
 
 riwayat edit
@@ -80,3 +78,5 @@ Logika Tambahan di PHP: Setiap kali ada UPDATE di absensi/proses.php, kita juga 
 ketika generate slip gaji, ada celah dimana kita bisa nambahin slip baru selama rentang harinya beda. jd aga rancu misal udh nge gaji buat periode 10-15 (tanggal), lalu bisa bikin lagi untuk tg 10-13. RANCu
 
 Generate slip gaji, bisa lah nge batch
+
+nambah pekerja mungkin bisa dibuat multiple?
