@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // File: auth/login.php
 require_once '../config.php'; // Untuk BASE_URL dan session_start() yang mungkin sudah ada di config
 
