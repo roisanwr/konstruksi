@@ -4,7 +4,7 @@
 // --- 1. Pengaturan Database ---
 // Sesuaikan nilai-nilai ini dengan pengaturan database MySQL kamu.
 define('DB_HOST', 'localhost');         // Biasanya 'localhost' jika database di server yang sama.
-define('DB_NAME', 'u951570841_azrina');              // Nama database kita yang sudah kita sepakati!
+define('DB_NAME', 'u951570841_kontraktor');              // Nama database kita yang sudah kita sepakati!
 define('DB_USER', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
 define('DB_PASS', 'Azrinaj4y4#');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
 
