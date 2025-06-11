@@ -19,14 +19,18 @@ if (!isset($_GET['id_gaji']) || !is_numeric($_GET['id_gaji'])) {
 $id_gaji = intval($_GET['id_gaji']);
 
 // 3. Query untuk mengambil semua detail yang dibutuhkan untuk slip gaji
+// ...existing code...
 $sql = "SELECT
             g.*,
             p.namapekerja,
-            j.namajabatan
+            j.namajabatan,
+            pr.namaprojek
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
         JOIN jabatan j ON p.id_jabatan = j.id_jabatan
+        JOIN projek pr ON p.id_projek = pr.id_projek
         WHERE g.id_gaji = ?";
+// ...existing code...
 
 $stmt = mysqli_prepare($koneksi, $sql);
 $slip_data = null;
@@ -137,10 +141,10 @@ function format_rupiah($angka) {
         <button onclick="window.print()" class="print-button">Cetak Halaman Ini</button>
         <div class="slip-wrapper">
             <div class="header">
-                <img src="../assets/img/azrina_logo.png" alt="Logo Proyek Jaya Konstruksi minimalis with white background and subtle shadow" />
+                <img src="../assets/img/azrina_logo.png" alt="Logo projek Jaya Konstruksi minimalis with white background and subtle shadow" />
                 <div class="header-text">
                     <h1>SLIP GAJI KARYAWAN</h1>
-                    <p>PROYEK JAYA KONSTRUKSI</p>
+                    <p><?php echo htmlspecialchars($slip_data['namaprojek']); ?></p>
                 </div>
             </div>
             <div class="info-section">
