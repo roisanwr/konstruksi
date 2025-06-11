@@ -129,7 +129,7 @@ if(!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
 </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200" x-data="{ isSidebarOpen: false }">
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200 flex flex-col min-h-screen" x-data="{ isSidebarOpen: false }">
     <!-- Top Navigation Bar -->
     <nav class="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-lg fixed w-full top-0 z-50 transition-all duration-300">
         <div class="max-w-full mx-auto px-4">
@@ -280,7 +280,7 @@ if(!isset($_SESSION['user_id'])) {
                 </a>
             </div>
         </div>
-    </nav>
+    </nav> <div class="content-wrapper flex-1 flex flex-col">
 
     <!-- Enhanced mobile menu and keyboard shortcuts -->
     <script>

@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-white dark:bg-gray-800 shadow-lg mt-8 md:ml-72 relative z-50">
+<footer class="bg-white dark:bg-gray-800 shadow-lg">
     <div class="max-w-7xl mx-auto py-4 px-4">
         <div class="flex justify-between items-center">
             <div class="text-gray-500 dark:text-gray-400 text-sm">
