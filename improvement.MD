@@ -78,3 +78,5 @@ Logika Tambahan di PHP: Setiap kali ada UPDATE di absensi/proses.php, kita juga 
 ketika generate slip gaji, ada celah dimana kita bisa nambahin slip baru selama rentang harinya beda. jd aga rancu misal udh nge gaji buat periode 10-15 (tanggal), lalu bisa bikin lagi untuk tg 10-13. RANCu
 
 Generate slip gaji, bisa lah nge batch
+
+nambah pekerja mungkin bisa dibuat multiple?
