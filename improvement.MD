@@ -75,3 +75,6 @@ Pemahaman Sparky: Kamu ingin mencatat setiap detail perubahan. Misalnya, jika Ad
 Pendapat Sparky: Fitur ini sangat powerful, tapi implementasinya jauh lebih kompleks. Ini biasanya membutuhkan:
 Tabel Baru: Kita perlu membuat tabel baru, misalnya log_absensi, untuk menyimpan setiap perubahan (siapa yang mengubah, apa nilai lamanya, apa nilai barunya, kapan diubah).
 Logika Tambahan di PHP: Setiap kali ada UPDATE di absensi/proses.php, kita juga harus menjalankan INSERT ke tabel log_absensi.
+
+
+d=ketika generate slip gaji, ada celah dimana kita bisa nambahin slip baru selama rentang harinya beda. jd aga rancu misal udh nge gaji buat periode 10-15 (tanggal), lalu bisa bikin lagi untuk tg 10-13. RANCu
