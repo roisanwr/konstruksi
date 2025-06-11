@@ -122,7 +122,7 @@ function format_rupiah($angka) {
         <button onclick="window.print()" class="print-button">Cetak Halaman Ini</button>
         <div class="slip-wrapper">
             <div class="header">
-                <img src="assets/img/azrina_logo.png" alt="Logo Proyek Jaya Konstruksi minimalis with white background and subtle shadow" />
+                <img src="../assets/img/azrina_logo.png" alt="Logo Proyek Jaya Konstruksi minimalis with white background and subtle shadow" />
                 <div class="header-text">
                     <h1>SLIP GAJI KARYAWAN</h1>
                     <p>PROYEK JAYA KONSTRUKSI</p>
