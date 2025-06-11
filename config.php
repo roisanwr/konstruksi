@@ -4,9 +4,9 @@
 // --- 1. Pengaturan Database ---
 // Sesuaikan nilai-nilai ini dengan pengaturan database MySQL kamu.
 define('DB_HOST', 'localhost');         // Biasanya 'localhost' jika database di server yang sama.
-define('DB_USER', 'u951570841_coba');              // Ganti dengan username database MySQL kamu.
-define('DB_PASS', 'u951570841_coba');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
-define('DB_NAME', 'Azrinaj4y4j4y4');              // Nama database kita yang sudah kita sepakati!
+define('DB_NAME', 'u951570841_azrina');              // Nama database kita yang sudah kita sepakati!
+define('DB_USER', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
+define('DB_PASS', 'Azrin4##');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
 
 // Buat koneksi ke database menggunakan MySQLi
 $koneksi = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
