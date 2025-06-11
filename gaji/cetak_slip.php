@@ -19,10 +19,10 @@ if (!isset($_GET['id_gaji']) || !is_numeric($_GET['id_gaji'])) {
 $id_gaji = intval($_GET['id_gaji']);
 
 // 3. Query untuk mengambil semua detail yang dibutuhkan untuk slip gaji
-$sql = "SELECT 
-            g.*, 
-            p.namapekerja, 
-            j.namajabatan 
+$sql = "SELECT
+            g.*,
+            p.namapekerja,
+            j.namajabatan
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
         JOIN jabatan j ON p.id_jabatan = j.id_jabatan
@@ -58,7 +58,32 @@ function format_rupiah($angka) {
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
         .page-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .slip-wrapper { width: 800px; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .header { text-align: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        .header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            /* gap: 20px; <--- Hapus atau komentar baris ini */
+            position: relative; /* TAMBAHKAN INI */
+            justify-content: flex-start; /* TAMBAHKAN INI, memastikan logo di kiri */
+        }
+        .header img {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+            background-color: #fff;
+            box-shadow: 0 0 4px rgba(0,0,0,0.1);
+        }
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            text-align: center; /* TAMBAHKAN INI untuk meratakan teks di dalamnya */
+            position: absolute; /* TAMBAHKAN INI */
+            left: 50%; /* TAMBAHKAN INI */
+            transform: translateX(-50%); /* TAMBAHKAN INI */
+            width: fit-content; /* TAMBAHKAN INI */
+        }
         .header h1 { margin: 0; font-size: 24px; color: #1a202c; }
         .header p { margin: 5px 0 0; color: #718096; }
         .info-section { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; }
@@ -87,16 +112,36 @@ function format_rupiah($angka) {
             .page-container { padding: 0; }
             .print-button { display: none; }
             .slip-wrapper { box-shadow: none; border: 1px solid #ccc; border-radius: 0; width: 100%; }
+            .header {
+                border-bottom: 1px solid #ccc;
+                /* gap: 10px; <--- Hapus atau komentar baris ini */
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+                justify-content: flex-start; /* Tetap flex-start untuk cetak */
+            }
+            .header img {
+                height: 40px;
+            }
+             .header-text { /* Pastikan centering juga berlaku untuk cetak */
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                width: fit-content;
+            }
         }
     </style>
 </head>
 <body>
     <div class="page-container">
-        <button onclick="window.print()" class="print-button">🖨️ Cetak Halaman Ini</button>
+        <button onclick="window.print()" class="print-button">Cetak Halaman Ini</button>
         <div class="slip-wrapper">
             <div class="header">
-                <h1>SLIP GAJI KARYAWAN</h1>
-                <p>PROYEK JAYA KONSTRUKSI</p>
+                <img src="../assets/img/azrina_logo.png" alt="Logo Proyek Jaya Konstruksi minimalis with white background and subtle shadow" />
+                <div class="header-text">
+                    <h1>SLIP GAJI KARYAWAN</h1>
+                    <p>PROYEK JAYA KONSTRUKSI</p>
+                </div>
             </div>
             <div class="info-section">
                 <div>
