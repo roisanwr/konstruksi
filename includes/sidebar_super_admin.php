@@ -23,6 +23,8 @@ if ($relative_path == 'dashboard.php' || $relative_path == '') {
     $menu_aktif = 'proyek';
 } elseif (strpos($relative_path, 'absensi/') === 0) { // LOGIKA DIPERBAIKI: Menambahkan deteksi untuk absensi
     $menu_aktif = 'absensi';
+} elseif (strpos($relative_path, 'gaji/') === 0) { 
+    $menu_aktif = 'gaji';
 }
 ?>
 <aside id="sidebar" class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-[85%] max-w-[320px] md:w-72 h-[calc(100vh-4rem)] fixed left-0 top-16 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg z-40 overflow-y-auto">
@@ -75,6 +77,9 @@ if ($relative_path == 'dashboard.php' || $relative_path == '') {
                 <!-- MENU DIPERBAIKI DAN DITAMBAHKAN -->
                 <a href="<?php echo BASE_URL; ?>absensi/index.php" class="<?php echo $menu_aktif == 'absensi' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
                     <i class="fas fa-clipboard-list fa-fw w-5 mr-3"></i> Laporan Absensi
+                </a>
+                <a href="<?php echo BASE_URL; ?>gaji/index.php" class="<?php echo $menu_aktif == 'gaji' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
+                    <i class="fas fa-clipboard-list fa-fw w-5 mr-3"></i> Laporan Gaji
                 </a>
             </nav>
         </div>
