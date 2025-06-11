@@ -64,9 +64,7 @@ Kekurangan: Butuh pengembangan yang lebih signifikan (perubahan struktur tabel, 
 dalam penugasan yang diakses oleh mandor itu hanya yang lagi aktif jika masih planning mandor gak akan bisa melihat bahwa dia penanggung jawabnya, dan jika sudah complete maka dia tidak dapat merubah, menambah, edit atau bahkan hapus dia hanya bisa melihatnya tanpa berbuat apa apa
 
 
-perubahan nonaktif otomatis untuk penugasan ketika waktu akhirnya sudah dilewati
-
-
+perubahan nonaktif otomatis untuk penugasan ketika waktu akhirnya sudah dilewati, dengan konfirmasi
 
 
 riwayat edit
