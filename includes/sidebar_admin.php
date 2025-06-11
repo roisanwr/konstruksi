@@ -22,6 +22,8 @@ if ($relative_path == 'dashboard.php' || $relative_path == '') {
     $menu_aktif = 'proyek';
 } elseif (strpos($relative_path, 'absensi/') === 0) { // Jika path dimulai dengan 'absensi/'
     $menu_aktif = 'absensi'; // Ini akan aktif untuk absensi/index.php dan absensi/admin_edit.php
+} elseif (strpos($relative_path, 'gaji/') === 0) { // Jika path dimulai dengan 'absensi/'
+    $menu_aktif = 'gaji';
 }
 // Tambahkan modul lain di sini jika ada
 ?>
@@ -72,6 +74,9 @@ if ($relative_path == 'dashboard.php' || $relative_path == '') {
                 </a>
                 <a href="<?php echo BASE_URL; ?>absensi/index.php" class="<?php echo $menu_aktif == 'absensi' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
                     <i class="fas fa-clipboard-list fa-fw w-5 mr-3"></i> Laporan Absensi
+                </a>
+                <a href="<?php echo BASE_URL; ?>gaji/index.php" class="<?php echo $menu_aktif == 'gaji' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
+                    <i class="fas fa-clipboard-list fa-fw w-5 mr-3"></i> Laporan Gaji
                 </a>
                 
             </nav>
