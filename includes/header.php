@@ -280,7 +280,7 @@ if(!isset($_SESSION['user_id'])) {
                 </a>
             </div>
         </div>
-    </nav>
+    </nav> <div class="content-wrapper flex-1 flex flex-col">
 
     <!-- Enhanced mobile menu and keyboard shortcuts -->
     <script>
