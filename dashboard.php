@@ -58,8 +58,8 @@ $query_selesai = "SELECT COUNT(*) as total FROM projek
                   WHERE status = 'completed' 
                   AND MONTH(tanggal_selesai_projek) = MONTH(CURDATE()) 
                   AND YEAR(tanggal_selesai_projek) = YEAR(CURDATE())";
-$result_selesai = mysqli_query($conn, $query_selesai);
-$proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
+// $result_selesai = mysqli_query($conn, $query_selesai);
+// $proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
 
 // Query untuk Alert/Warning
 $alerts = [];
