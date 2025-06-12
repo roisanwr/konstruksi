@@ -31,10 +31,10 @@ $page_title = "Dashboard";
 // $result_hadir = mysqli_query($conn, $query_hadir);
 // $data_hadir = mysqli_fetch_assoc($result_hadir);
 
-// 2. Proyek aktif
-$query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
-$result_proyek = mysqli_query($conn, $query_proyek_aktif);
-$proyek_aktif = mysqli_fetch_assoc($result_proyek)['total'];
+// // 2. Proyek aktif
+// $query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
+// $result_proyek = mysqli_query($conn, $query_proyek_aktif);
+// $proyek_aktif = mysqli_fetch_assoc($result_proyek)['total'];
 
 // 3. Proyek belum diabsen hari ini
 $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
