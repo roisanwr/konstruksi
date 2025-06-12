@@ -23,13 +23,13 @@ $user_role = $_SESSION['role'];
 $page_title = "Dashboard";
 
 // Query untuk Quick Stats
-// 1. Pekerja hadir hari ini
-$query_hadir = "SELECT COUNT(DISTINCT a.id_pekerja) as hadir,
-                (SELECT COUNT(*) FROM pekerja WHERE is_active = 1) as total_pekerja
-                FROM absensi a 
-                WHERE a.tanggal = CURDATE() AND a.status_hadir = 1";
-$result_hadir = mysqli_query($conn, $query_hadir);
-$data_hadir = mysqli_fetch_assoc($result_hadir);
+// // 1. Pekerja hadir hari ini
+// $query_hadir = "SELECT COUNT(DISTINCT a.id_pekerja) as hadir,
+//                 (SELECT COUNT(*) FROM pekerja WHERE is_active = 1) as total_pekerja
+//                 FROM absensi a 
+//                 WHERE a.tanggal = CURDATE() AND a.status_hadir = 1";
+// $result_hadir = mysqli_query($conn, $query_hadir);
+// $data_hadir = mysqli_fetch_assoc($result_hadir);
 
 // 2. Proyek aktif
 $query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
