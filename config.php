@@ -1,69 +1,57 @@
 <?php
-/*
-File: config.php (Versi Debug)
-Fungsi: Untuk koneksi ke database dan settingan dasar.
-Tujuan Debug: Untuk menampilkan error koneksi secara langsung dan detail.
-*/
+// File: config.php (Simpan di folder root Proyek Jaya)
 
-// --- TAHAP 1: AKTIFKAN LAPORAN ERROR MYSQLI ---
-// Baris ini memaksa MySQLi untuk melaporkan semua error, jangan dilewatkan.
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-
-// --- TAHAP 2: PENGATURAN KONEKSI DATABASE ---
-// Pastikan semua detail di bawah ini 100% benar sesuai dengan hosting kamu.
+// --- 1. Pengaturan Database ---
+// Sesuaikan nilai-nilai ini dengan pengaturan database MySQL kamu.
 define('DB_HOST', 'localhost');         // Biasanya 'localhost' jika database di server yang sama.
 define('DB_NAME', 'u951570841_kontraktor');              // Nama database kita yang sudah kita sepakati!
 define('DB_USER', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
 define('DB_PASS', 'Azrinaj4y4#');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
 
-// --- TAHAP 3: PENGATURAN DASAR APLIKASI ---
-// Pastikan BASE_URL sudah benar, diakhiri dengan garis miring '/'.
-// CONTOH: 'https://moku-meubel.com/kontraktor/'
-define('BASE_URL', 'https://kontraktor.moku-meubel.com/'); 
+// Buat koneksi ke database menggunakan MySQLi
+$koneksi = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-
-// --- TAHAP 4: PERCOBAAN KONEKSI ---
-// Kita akan mencoba membuat koneksi di dalam blok try-catch.
-// Blok ini akan "menangkap" error apapun yang terjadi saat koneksi.
-
-$conn = null; // Inisialisasi variabel $conn sebagai null.
-
-try {
-    // PHP akan mencoba menjalankan kode di dalam blok 'try'.
-    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    
-    // Set charset agar tidak ada masalah dengan karakter aneh
-    mysqli_set_charset($conn, "utf8mb4");
-
-} catch (mysqli_sql_exception $e) {
-    // Jika ada error APAPUN saat koneksi di blok 'try', PHP akan menjalankan blok 'catch' ini.
-    // Kita akan menghentikan semua proses dan menampilkan pesan error yang sangat detail.
-    
-    // Tulis pesan error ke layar.
-    echo "<!DOCTYPE html><html><head><title>Database Connection Error</title>";
-    echo "<style>body { font-family: 'Courier New', monospace; padding: 20px; background-color: #1a1a1a; color: #ff4d4d; } .container { background-color: #333; border: 2px solid #ff4d4d; padding: 20px; border-radius: 5px; } h1 { border-bottom: 1px solid #ff4d4d; padding-bottom: 10px; } .code { color: #f1fa8c; } .info { color: #8be9fd; } .tip { color: #50fa7b; margin-top: 20px;}</style>";
-    echo "</head><body>";
-    echo "<div class='container'>";
-    echo "<h1>[FATAL] Gagal Total Konek ke Database</h1>";
-    echo "<p>Pesan Error dari Sistem: <strong class='code'>" . $e->getMessage() . "</strong></p>";
-    echo "<p class='info'>Info Error Code: " . $e->getCode() . "</p>";
-    echo "<hr>";
-    echo "<h2>Langkah Pengecekan:</h2>";
-    echo "<ol>";
-    echo "<li>Cek file `config.php`: Apakah <strong>DB_HOST</strong> ('" . DB_HOST . "'), <strong>DB_USER</strong> ('" . DB_USER . "'), <strong>DB_PASS</strong> (disembunyikan), dan <strong>DB_NAME</strong> ('" . DB_NAME . "') sudah 100% benar?</li>";
-    echo "<li>Cek di cPanel/Panel Hosting: Apakah user database ('" . DB_USER . "') sudah ditambahkan ke database ('" . DB_NAME . "') dan diberi semua hak akses (All Privileges)?</li>";
-    echo "<li>Cek Hostname: Apakah benar 'localhost'? Beberapa hosting menggunakan alamat IP atau nama domain lain.</li>";
-    echo "</ol>";
-    echo "<p class='tip'>Tips: Copy pesan error di atas dan kirimkan balik untuk dianalisis lebih lanjut.</p>";
-    echo "</div>";
-    echo "</body></html>";
-    
-    // Hentikan eksekusi skrip sepenuhnya.
-    exit();
+// Cek koneksi
+if (!$koneksi) {
+    // Jika koneksi gagal, tampilkan pesan error dan hentikan skrip.
+    // Untuk tahap development, ini membantu kita tahu masalahnya.
+    // Untuk production nanti, error handling-nya bisa lebih canggih (misal, dicatat ke log).
+    die("KONEKSI KE DATABASE GAGAL: " . mysqli_connect_error() . " (Error Code: " . mysqli_connect_errno() . ")");
 }
 
-// Jika berhasil melewati try-catch, artinya koneksi aman.
-// Lanjutkan skrip seperti biasa.
+// Set karakter set koneksi ke utf8mb4 (direkomendasikan untuk mendukung berbagai karakter)
+mysqli_set_charset($koneksi, "utf8mb4");
+
+// --- 2. Pengaturan Dasar Aplikasi ---
+// BASE_URL: Alamat dasar website Proyek Jaya kamu.
+// Penting untuk membuat link, redirect, dan memanggil aset (CSS/JS/gambar) dengan benar.
+// Sesuaikan dengan alamat di mana kamu akan mengakses proyek ini di browser.
+// Contoh: jika diakses via http://localhost/proyek_jaya/, maka BASE_URL-nya seperti di bawah.
+// JANGAN LUPA tanda slash ('/') di akhir!
+define('BASE_URL', 'https://kontraktor.moku-meubel.com/'); // GANTI SESUAI ALAMAT PROYEKMU!
+
+// --- 3. Session ---
+// Memulai session jika belum ada session yang aktif.
+// Session digunakan untuk menyimpan data pengguna yang login (seperti user_id, role, dll).
+// File header.php dan dashboard.php kamu sudah punya session_start(),
+// tapi menaruh ini di config.php (yang di-include pertama) memastikan session selalu siap.
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// --- 4. Pengaturan Zona Waktu (Opsional tapi Baik) ---
+// Mengatur zona waktu default untuk fungsi-fungsi tanggal dan waktu di PHP.
+date_default_timezone_set('Asia/Jakarta');
+
+
+/*
+// (Opsional) Untuk debugging awal, kamu bisa uncomment baris di bawah ini.
+// Setelah itu, comment atau hapus lagi.
+if ($koneksi) {
+    echo "File config.php berhasil dimuat! Koneksi ke database 'jaya' SUKSES! BASE_URL: " . BASE_URL;
+} else {
+    echo "File config.php berhasil dimuat, TAPI koneksi database GAGAL!";
+}
+*/
 
 ?>
