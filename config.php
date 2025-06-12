@@ -14,8 +14,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 // Pastikan semua detail di bawah ini 100% benar sesuai dengan hosting kamu.
 define('DB_HOST', 'localhost');         // Biasanya 'localhost' jika database di server yang sama.
 define('DB_NAME', 'u951570841_kontraktor');              // Nama database kita yang sudah kita sepakati!
-define('DB_USERNAME', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
-define('DB_PASSWORD', 'Azrinaj4y4#');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
+define('DB_USER', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
+define('DB_PASS', 'Azrinaj4y4#');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
 
 // --- TAHAP 3: PENGATURAN DASAR APLIKASI ---
 // Pastikan BASE_URL sudah benar, diakhiri dengan garis miring '/'.
@@ -31,7 +31,7 @@ $conn = null; // Inisialisasi variabel $conn sebagai null.
 
 try {
     // PHP akan mencoba menjalankan kode di dalam blok 'try'.
-    $conn = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     
     // Set charset agar tidak ada masalah dengan karakter aneh
     mysqli_set_charset($conn, "utf8mb4");
@@ -51,8 +51,8 @@ try {
     echo "<hr>";
     echo "<h2>Langkah Pengecekan:</h2>";
     echo "<ol>";
-    echo "<li>Cek file `config.php`: Apakah <strong>DB_HOST</strong> ('" . DB_HOST . "'), <strong>DB_USERNAME</strong> ('" . DB_USERNAME . "'), <strong>DB_PASSWORD</strong> (disembunyikan), dan <strong>DB_NAME</strong> ('" . DB_NAME . "') sudah 100% benar?</li>";
-    echo "<li>Cek di cPanel/Panel Hosting: Apakah user database ('" . DB_USERNAME . "') sudah ditambahkan ke database ('" . DB_NAME . "') dan diberi semua hak akses (All Privileges)?</li>";
+    echo "<li>Cek file `config.php`: Apakah <strong>DB_HOST</strong> ('" . DB_HOST . "'), <strong>DB_USER</strong> ('" . DB_USER . "'), <strong>DB_PASS</strong> (disembunyikan), dan <strong>DB_NAME</strong> ('" . DB_NAME . "') sudah 100% benar?</li>";
+    echo "<li>Cek di cPanel/Panel Hosting: Apakah user database ('" . DB_USER . "') sudah ditambahkan ke database ('" . DB_NAME . "') dan diberi semua hak akses (All Privileges)?</li>";
     echo "<li>Cek Hostname: Apakah benar 'localhost'? Beberapa hosting menggunakan alamat IP atau nama domain lain.</li>";
     echo "</ol>";
     echo "<p class='tip'>Tips: Copy pesan error di atas dan kirimkan balik untuk dianalisis lebih lanjut.</p>";
