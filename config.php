@@ -20,7 +20,7 @@ define('DB_PASS', 'Azrinaj4y4#');                  // Ganti dengan password data
 // --- TAHAP 3: PENGATURAN DASAR APLIKASI ---
 // Pastikan BASE_URL sudah benar, diakhiri dengan garis miring '/'.
 // CONTOH: 'https://moku-meubel.com/kontraktor/'
-define('BASE_URL', 'https://moku-meubel.com/kontraktor/'); 
+define('BASE_URL', 'https://kontraktor.moku-meubel.com/'); 
 
 
 // --- TAHAP 4: PERCOBAAN KONEKSI ---
