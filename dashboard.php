@@ -164,11 +164,11 @@ $query_7days = "SELECT tanggal,
                 ORDER BY tanggal DESC";
 $result_7days = mysqli_query($conn, $query_7days);
 
-require_once '../includes/header.php'; 
+require_once '/includes/header.php'; 
 if ($user_role == 'super_admin') {
-    require_once '../includes/sidebar_super_admin.php';
+    require_once '/includes/sidebar_super_admin.php';
 } elseif ($user_role == 'admin') {
-    require_once '../includes/sidebar_admin.php';
+    require_once '/includes/sidebar_admin.php';
 }
 ?>
 
