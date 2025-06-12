@@ -62,8 +62,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // kecuali jika template header/sidebar nanti membutuhkannya dari sumber lain.
 
                     // 10. Redirect ke halaman dashboard
-                    header('Location: ' . BASE_URL . 'dashboard.php');
-                    exit;
+                    if ($_SESSION['role'] === 'mandor') {
+                            // Jika yang login adalah Mandor, langsung arahkan ke halaman Catat Absensi
+                            header('Location: ' . BASE_URL . 'absensi/catat.php');
+                        } else {
+                            // Jika perannya bukan Mandor (yaitu Super Admin atau Admin),
+                            // arahkan ke halaman Dashboard seperti biasa.
+                            header('Location: ' . BASE_URL . 'dashboard.php');
+                        }
+                        exit; // Hentikan eksekusi skrip setelah redirect.
                 } else {
                     // Pengguna ditemukan, password cocok, TAPI STATUSNYA TIDAK AKTIF (is_active = 0)
                     $_SESSION['pesan_error_login'] = "Akun Anda saat ini tidak aktif. Silakan hubungi Administrator."; // Pesan ini bisa ditampilkan di login.php
