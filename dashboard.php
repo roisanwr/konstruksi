@@ -5,9 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $conn = mysqli_connect('localhost', 'u951570841_ridwan', 'Azrinaj4y4#', 'u951570841_kontraktor');
-if (!$conn) {
-    die('Koneksi database gagal: ' . mysqli_connect_error());
-}
+
 
 
 if (!isset($_SESSION['user_id'])) {
