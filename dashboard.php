@@ -51,7 +51,7 @@ $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
 // 4. Total klien
 $query_klien = "SELECT COUNT(*) as total FROM klien";
 // $result_klien = mysqli_query($conn, $query_klien);
-$total_klien = mysqli_fetch_assoc($result_klien)['total'];
+// $total_klien = mysqli_fetch_assoc($result_klien)['total'];
 
 // 5. Proyek selesai bulan ini
 $query_selesai = "SELECT COUNT(*) as total FROM projek 
