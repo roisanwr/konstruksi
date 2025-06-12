@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $allowed_roles = ['super_admin', 'admin'];
 if (!in_array($_SESSION['role'], $allowed_roles)) {
     $_SESSION['pesan_error'] = "MAAF, ANDA TIDAK MEMILIKI HAK AKSES KE HALAMAN MANAJEMEN KLIEN.";
-    header('Location: ' . BASE_URL . 'dashboard.php');
+    header('Location: ' . BASE_URL . 'absensi/index.php');
     exit;
 }
 
