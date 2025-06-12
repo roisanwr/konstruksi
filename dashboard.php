@@ -3,10 +3,7 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-$conn = mysqli_connect('localhost', 'u951570841_ridwan', 'Azrinaj4y4#', 'u951570841_kontraktor');
-
-
+require_once 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ' . BASE_URL . 'auth/login.php?error=2'); 
@@ -170,13 +167,15 @@ $query_7days = "SELECT tanggal,
                 ORDER BY tanggal DESC";
 $result_7days = mysqli_query($conn, $query_7days);
 
-require_once 'includes/header.php'; 
+require_once '/includes/header.php'; 
 if ($user_role == 'super_admin') {
-    require_once 'includes/sidebar_super_admin.php';
+    require_once '/includes/sidebar_super_admin.php';
 } elseif ($user_role == 'admin') {
-    require_once 'includes/sidebar_admin.php';
+    require_once '/includes/sidebar_admin.php';
 }
 ?>
+
+
 
 
 <div class="container mx-auto px-4 py-6">
