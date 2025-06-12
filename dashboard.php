@@ -3,8 +3,17 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 // PERBAIKAN: Menggunakan __DIR__ untuk path absolut yang lebih andal
 require_once __DIR__ . '/config.php';
+
+// --- Pengecekan Koneksi Database yang Kritis ---
+// Pengecekan ini akan menghentikan semua proses jika koneksi gagal.
+if (!isset($conn) || mysqli_connect_errno()) {
+    // Jika $conn tidak ada atau ada error saat koneksi
+    // `die()` akan menghentikan eksekusi skrip dan menampilkan pesan yang jelas.
+    die("FATAL ERROR: Koneksi ke database gagal. Pastikan detail di config.php sudah benar. Pesan Error: " . mysqli_connect_error());
+}
 
 if (!isset($_SESSION['user_id'])) {
     // Pastikan BASE_URL sudah didefinisikan di config.php
@@ -23,20 +32,30 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
 $user_role = $_SESSION['role'];
 $page_title = "Dashboard";
 
-// --- Mulai Query Database ---
+// --- Mulai Query Database dengan Error Handling ---
+
+// Helper function untuk menjalankan query dengan aman
+function execute_query($connection, $query, $query_name) {
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        die("Query Error ($query_name): " . mysqli_error($connection));
+    }
+    return $result;
+}
 
 // 1. Pekerja hadir hari ini
 $query_hadir = "SELECT COUNT(DISTINCT a.id_pekerja) as hadir,
                 (SELECT COUNT(*) FROM pekerja WHERE is_active = 1) as total_pekerja
                 FROM absensi a 
                 WHERE a.tanggal = CURDATE() AND a.status_hadir = 1";
-$result_hadir = mysqli_query($conn, $query_hadir);
+$result_hadir = execute_query($conn, $query_hadir, "Pekerja Hadir");
 $data_hadir = mysqli_fetch_assoc($result_hadir);
 
 // 2. Proyek aktif
 $query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
-$result_proyek = mysqli_query($conn, $query_proyek_aktif);
-$proyek_aktif = mysqli_fetch_assoc($result_proyek)['total'];
+$result_proyek = execute_query($conn, $query_proyek_aktif, "Proyek Aktif");
+$data_proyek_aktif = mysqli_fetch_assoc($result_proyek);
+$proyek_aktif = $data_proyek_aktif['total'] ?? 0;
 
 // 3. Proyek belum diabsen hari ini
 $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
@@ -47,21 +66,24 @@ $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
                           FROM absensi 
                           WHERE tanggal = CURDATE()
                       )";
-$result_belum_absen = mysqli_query($conn, $query_belum_absen);
-$belum_absen = mysqli_fetch_assoc($result_belum_absen)['total'];
+$result_belum_absen = execute_query($conn, $query_belum_absen, "Proyek Belum Absen");
+$data_belum_absen = mysqli_fetch_assoc($result_belum_absen);
+$belum_absen = $data_belum_absen['total'] ?? 0;
 
 // 4. Total klien
 $query_klien = "SELECT COUNT(*) as total FROM klien";
-$result_klien = mysqli_query($conn, $query_klien);
-$total_klien = mysqli_fetch_assoc($result_klien)['total'];
+$result_klien = execute_query($conn, $query_klien, "Total Klien");
+$data_klien = mysqli_fetch_assoc($result_klien);
+$total_klien = $data_klien['total'] ?? 0;
 
 // 5. Proyek selesai bulan ini
 $query_selesai = "SELECT COUNT(*) as total FROM projek 
                   WHERE status = 'completed' 
                   AND MONTH(tanggal_selesai_projek) = MONTH(CURDATE()) 
                   AND YEAR(tanggal_selesai_projek) = YEAR(CURDATE())";
-$result_selesai = mysqli_query($conn, $query_selesai);
-$proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
+$result_selesai = execute_query($conn, $query_selesai, "Proyek Selesai");
+$data_selesai = mysqli_fetch_assoc($result_selesai);
+$proyek_selesai = $data_selesai['total'] ?? 0;
 
 // Query untuk Alert/Warning
 $alerts = [];
@@ -73,16 +95,13 @@ $query_deadline = "SELECT namaprojek, DATEDIFF(tanggal_selesai_projek, CURDATE()
                    AND tanggal_selesai_projek IS NOT NULL
                    AND DATEDIFF(tanggal_selesai_projek, CURDATE()) BETWEEN 0 AND 7
                    ORDER BY sisa_hari ASC";
-$result_deadline = mysqli_query($conn, $query_deadline);
-if ($result_deadline) {
-    while ($row = mysqli_fetch_assoc($result_deadline)) {
-        $alerts[] = [
-            'type' => 'warning',
-            'message' => "Proyek {$row['namaprojek']} deadline {$row['sisa_hari']} hari lagi"
-        ];
-    }
+$result_deadline = execute_query($conn, $query_deadline, "Deadline Proyek");
+while ($row = mysqli_fetch_assoc($result_deadline)) {
+    $alerts[] = [
+        'type' => 'warning',
+        'message' => "Proyek ".htmlspecialchars($row['namaprojek'])." deadline {$row['sisa_hari']} hari lagi"
+    ];
 }
-
 
 // Alert 2: Pekerja belum punya penugasan
 $query_no_assignment = "SELECT COUNT(*) as total FROM pekerja p
@@ -91,8 +110,9 @@ $query_no_assignment = "SELECT COUNT(*) as total FROM pekerja p
                             SELECT id_pekerja FROM proyek_pekerja 
                             WHERE is_active = 1
                         )";
-$result_no_assignment = mysqli_query($conn, $query_no_assignment);
-$no_assignment = mysqli_fetch_assoc($result_no_assignment)['total'];
+$result_no_assignment = execute_query($conn, $query_no_assignment, "Pekerja Tanpa Penugasan");
+$data_no_assignment = mysqli_fetch_assoc($result_no_assignment);
+$no_assignment = $data_no_assignment['total'] ?? 0;
 if ($no_assignment > 0) {
     $alerts[] = [
         'type' => 'info',
@@ -101,25 +121,22 @@ if ($no_assignment > 0) {
 }
 
 // Alert 3: Pekerja tidak masuk 3 hari berturut-turut
-$query_absent = "SELECT p.namapekerja, 
-                 COUNT(DISTINCT DATE(a.tanggal)) as hari_masuk
+$query_absent = "SELECT p.namapekerja
                  FROM pekerja p
-                 JOIN proyek_pekerja pp ON p.id_pekerja = pp.id_pekerja
-                 LEFT JOIN absensi a ON p.id_pekerja = a.id_pekerja 
-                     AND a.tanggal >= DATE_SUB(CURDATE(), INTERVAL 3 DAY)
-                     AND a.tanggal < CURDATE()
-                     AND a.status_hadir = 1
-                 WHERE pp.is_active = 1
-                 GROUP BY p.id_pekerja, p.namapekerja
-                 HAVING hari_masuk = 0";
-$result_absent = mysqli_query($conn, $query_absent);
-if ($result_absent) {
-    while ($row = mysqli_fetch_assoc($result_absent)) {
-        $alerts[] = [
-            'type' => 'danger',
-            'message' => "{$row['namapekerja']} sudah 3 hari berturut-turut tidak masuk"
-        ];
-    }
+                 WHERE p.is_active = 1 AND p.id_pekerja IN (
+                    SELECT pp.id_pekerja FROM proyek_pekerja pp WHERE pp.is_active = 1
+                 ) AND NOT EXISTS (
+                    SELECT 1 FROM absensi a 
+                    WHERE a.id_pekerja = p.id_pekerja 
+                    AND a.status_hadir = 1 
+                    AND a.tanggal BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                 )";
+$result_absent = execute_query($conn, $query_absent, "Pekerja Absen 3 Hari");
+while ($row = mysqli_fetch_assoc($result_absent)) {
+    $alerts[] = [
+        'type' => 'danger',
+        'message' => htmlspecialchars($row['namapekerja']) . " terdeteksi tidak masuk 3 hari terakhir."
+    ];
 }
 
 
@@ -136,7 +153,7 @@ $query_proyek_list = "SELECT p.*, k.nama_klien,
                       WHERE p.status = 'active'
                       ORDER BY p.tanggal_mulai_projek DESC
                       LIMIT 5";
-$result_proyek_list = mysqli_query($conn, $query_proyek_list);
+$result_proyek_list = execute_query($conn, $query_proyek_list, "List Proyek Aktif");
 
 // Query untuk Top 5 Klien
 $query_top_klien = "SELECT k.nama_klien, COUNT(p.id_projek) as jumlah_proyek,
@@ -147,13 +164,13 @@ $query_top_klien = "SELECT k.nama_klien, COUNT(p.id_projek) as jumlah_proyek,
                     HAVING jumlah_proyek > 0
                     ORDER BY proyek_aktif DESC, jumlah_proyek DESC
                     LIMIT 5";
-$result_top_klien = mysqli_query($conn, $query_top_klien);
+$result_top_klien = execute_query($conn, $query_top_klien, "Top Klien");
 
 // Query untuk Pekerja dengan kehadiran rendah
 $query_low_attendance = "SELECT p.namapekerja, 
                          COUNT(DISTINCT CASE WHEN a.status_hadir = 1 THEN a.tanggal END) as hari_hadir,
-                         COUNT(DISTINCT a.tanggal) as hari_kerja,
-                         ROUND((COUNT(DISTINCT CASE WHEN a.status_hadir = 1 THEN a.tanggal END) / COUNT(DISTINCT a.tanggal)) * 100, 1) as persentase
+                         (SELECT COUNT(DISTINCT tanggal) FROM absensi WHERE id_pekerja = p.id_pekerja AND tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)) as hari_kerja,
+                         ROUND((COUNT(DISTINCT CASE WHEN a.status_hadir = 1 THEN a.tanggal END) / (SELECT COUNT(DISTINCT tanggal) FROM absensi WHERE id_pekerja = p.id_pekerja AND tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY))) * 100, 1) as persentase
                          FROM pekerja p
                          JOIN absensi a ON p.id_pekerja = a.id_pekerja
                          WHERE a.tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
@@ -161,22 +178,19 @@ $query_low_attendance = "SELECT p.namapekerja,
                          HAVING persentase < 80 AND hari_kerja >= 5
                          ORDER BY persentase ASC
                          LIMIT 5";
-$result_low_attendance = mysqli_query($conn, $query_low_attendance);
+$result_low_attendance = execute_query($conn, $query_low_attendance, "Kehadiran Rendah");
 
 // Query untuk Absensi 7 hari terakhir
 $query_7days = "SELECT tanggal,
                 COUNT(DISTINCT CASE WHEN status_hadir = 1 THEN id_pekerja END) as hadir,
                 COUNT(DISTINCT CASE WHEN status_hadir = 0 THEN id_pekerja END) as tidak_hadir
                 FROM absensi
-                WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-                AND tanggal <= CURDATE()
+                WHERE tanggal BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 DAY) AND CURDATE()
                 GROUP BY tanggal
                 ORDER BY tanggal DESC";
-$result_7days = mysqli_query($conn, $query_7days);
+$result_7days = execute_query($conn, $query_7days, "Absensi 7 Hari");
 
 // --- Selesai Query, Mulai Tampilkan Halaman ---
-
-// PERBAIKAN: Menggunakan __DIR__ untuk path absolut
 require_once __DIR__ . '/includes/header.php'; 
 if ($user_role == 'super_admin') {
     require_once __DIR__ . '/includes/sidebar_super_admin.php';
@@ -193,7 +207,7 @@ if ($user_role == 'super_admin') {
     </div>
 
     <!-- Quick Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
         <!-- Card 1: Pekerja Hadir -->
         <a href="absensi/index.php" class="block">
             <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
@@ -313,10 +327,10 @@ if ($user_role == 'super_admin') {
                 case 'info': echo 'bg-blue-100 text-blue-800'; break;
             }
             ?>">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.03-1.742 3.03H4.42c-1.532 0-2.492-1.696-1.742-3.03l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
-            <?php echo htmlspecialchars($alert['message']); ?>
+            <span><?php echo $alert['message']; ?></span>
         </div>
         <?php endforeach; ?>
     </div>
@@ -324,19 +338,19 @@ if ($user_role == 'super_admin') {
 
     <!-- Quick Actions -->
     <div class="mb-8 flex flex-wrap gap-4">
-        <a href="proyek/tambah.php" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 flex items-center">
+        <a href="proyek/tambah.php" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 flex items-center shadow hover:shadow-lg transition-transform transform hover:-translate-y-0.5">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
             Tambah Proyek Baru
         </a>
-        <a href="absensi/index.php" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 flex items-center">
+        <a href="absensi/index.php" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 flex items-center shadow hover:shadow-lg transition-transform transform hover:-translate-y-0.5">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
             </svg>
             Kelola Absensi
         </a>
-        <a href="pekerja/tambah.php" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 flex items-center">
+        <a href="pekerja/tambah.php" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 flex items-center shadow hover:shadow-lg transition-transform transform hover:-translate-y-0.5">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
             </svg>
@@ -348,7 +362,7 @@ if ($user_role == 'super_admin') {
         <!-- Tabel Proyek Aktif -->
         <div class="bg-white rounded-lg shadow">
             <div class="p-6 border-b">
-                <h2 class="text-xl font-bold text-gray-800">Proyek Aktif</h2>
+                <h2 class="text-xl font-bold text-gray-800">Proyek Aktif Terbaru</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
@@ -361,7 +375,7 @@ if ($user_role == 'super_admin') {
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if ($result_proyek_list && mysqli_num_rows($result_proyek_list) > 0): ?>
+                        <?php if (mysqli_num_rows($result_proyek_list) > 0): ?>
                             <?php while ($proyek = mysqli_fetch_assoc($result_proyek_list)): ?>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -377,13 +391,13 @@ if ($user_role == 'super_admin') {
                                     <?php echo $proyek['jumlah_pekerja']; ?> orang
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <?php if ($proyek['hadir_hari_ini'] > 0): ?>
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            ✅ <?php echo $proyek['hadir_hari_ini']; ?>/<?php echo $proyek['jumlah_pekerja']; ?>
+                                    <?php if ($proyek['jumlah_pekerja'] > 0): ?>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo ($proyek['hadir_hari_ini'] > 0) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
+                                            <?php echo $proyek['hadir_hari_ini']; ?>/<?php echo $proyek['jumlah_pekerja']; ?>
                                         </span>
                                     <?php else: ?>
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                            ❌ Belum
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            N/A
                                         </span>
                                     <?php endif; ?>
                                 </td>
@@ -400,7 +414,7 @@ if ($user_role == 'super_admin') {
         <!-- Top 5 Klien -->
         <div class="bg-white rounded-lg shadow">
             <div class="p-6 border-b">
-                <h2 class="text-xl font-bold text-gray-800">Top 5 Klien Aktif</h2>
+                <h2 class="text-xl font-bold text-gray-800">Top 5 Klien</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
@@ -412,7 +426,7 @@ if ($user_role == 'super_admin') {
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                         <?php if ($result_top_klien && mysqli_num_rows($result_top_klien) > 0): ?>
+                         <?php if (mysqli_num_rows($result_top_klien) > 0): ?>
                             <?php while ($klien = mysqli_fetch_assoc($result_top_klien)): ?>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -441,7 +455,7 @@ if ($user_role == 'super_admin') {
         <!-- Pekerja dengan Kehadiran Rendah -->
         <div class="bg-white rounded-lg shadow">
             <div class="p-6 border-b">
-                <h2 class="text-xl font-bold text-gray-800">Pekerja dengan Kehadiran Rendah (30 Hari)</h2>
+                <h2 class="text-xl font-bold text-gray-800">Kehadiran Rendah (30 Hari Terakhir)</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
@@ -453,7 +467,7 @@ if ($user_role == 'super_admin') {
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if ($result_low_attendance && mysqli_num_rows($result_low_attendance) > 0): ?>
+                        <?php if (mysqli_num_rows($result_low_attendance) > 0): ?>
                             <?php while ($pekerja = mysqli_fetch_assoc($result_low_attendance)): ?>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -472,7 +486,7 @@ if ($user_role == 'super_admin') {
                         <?php else: ?>
                             <tr>
                                 <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">
-                                    Semua pekerja memiliki kehadiran baik (>80%).
+                                    Semua pekerja memiliki kehadiran baik.
                                 </td>
                             </tr>
                         <?php endif; ?>
@@ -484,7 +498,7 @@ if ($user_role == 'super_admin') {
         <!-- Statistik Absensi 7 Hari -->
         <div class="bg-white rounded-lg shadow">
             <div class="p-6 border-b">
-                <h2 class="text-xl font-bold text-gray-800">Absensi 7 Hari Terakhir</h2>
+                <h2 class="text-xl font-bold text-gray-800">Statistik Absensi 7 Hari Terakhir</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
@@ -497,7 +511,7 @@ if ($user_role == 'super_admin') {
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if ($result_7days && mysqli_num_rows($result_7days) > 0): ?>
+                        <?php if (mysqli_num_rows($result_7days) > 0): ?>
                             <?php while ($hari = mysqli_fetch_assoc($result_7days)): 
                                 $total_absensi = $hari['hadir'] + $hari['tidak_hadir'];
                                 $persentase = $total_absensi > 0 ? round(($hari['hadir'] / $total_absensi) * 100, 1) : 0;
@@ -507,13 +521,9 @@ if ($user_role == 'super_admin') {
                                     <?php 
                                     $hari_indonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
                                     $date_obj = date_create($hari['tanggal']);
-                                    if ($date_obj) {
-                                        $tanggal = date_format($date_obj, 'd/m');
-                                        $nama_hari = $hari_indonesia[date_format($date_obj, 'w')];
-                                        echo $nama_hari . ', ' . $tanggal;
-                                    } else {
-                                        echo 'Tanggal tidak valid';
-                                    }
+                                    $tanggal = date_format($date_obj, 'd/m');
+                                    $nama_hari = $hari_indonesia[date_format($date_obj, 'w')];
+                                    echo $nama_hari . ', ' . $tanggal;
                                     ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
