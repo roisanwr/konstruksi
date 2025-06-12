@@ -44,6 +44,10 @@ if (strpos($relative_path_mandor, 'proyek/proyek_saya.php') === 0 ||
             
             <p class="px-4 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Menu Utama</p>
             <nav class="space-y-1.5"> 
+                <a href="<?php echo BASE_URL; ?>absensi/catat.php" 
+                   class="<?php echo $menu_aktif_mandor == 'catat_absensi_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
+                    <i class="fas fa-calendar-check fa-fw mr-3"></i> Catat Absensi 
+                </a>
                 <a href="<?php echo BASE_URL; ?>proyek/proyek_saya.php" 
                    class="<?php echo $menu_aktif_mandor == 'proyek_saya_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
                     <i class="fas fa-briefcase fa-fw mr-3"></i> Proyek Saya
@@ -52,17 +56,6 @@ if (strpos($relative_path_mandor, 'proyek/proyek_saya.php') === 0 ||
                    class="<?php echo $menu_aktif_mandor == 'tambah_pekerja_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
                     <i class="fas fa-user-plus fa-fw mr-3"></i> Tambah Pekerja
                 </a>
-            </nav>
-            
-            <p class="px-4 pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Absensi Tim</p>
-            <nav class="space-y-1.5">
-                <!-- MENU UNTUK TUGAS HARIAN -->
-                <a href="<?php echo BASE_URL; ?>absensi/catat.php" 
-                   class="<?php echo $menu_aktif_mandor == 'catat_absensi_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
-                    <i class="fas fa-calendar-check fa-fw mr-3"></i> Catat Absensi 
-                </a>
-                
-                <!-- MENU BARU UNTUK RIWAYAT -->
                 <a href="<?php echo BASE_URL; ?>absensi/riwayat.php" 
                    class="<?php echo $menu_aktif_mandor == 'riwayat_absensi_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
                     <i class="fas fa-history fa-fw mr-3"></i> Riwayat Absensi
