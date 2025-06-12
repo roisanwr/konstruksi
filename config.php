@@ -14,8 +14,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 // Pastikan semua detail di bawah ini 100% benar sesuai dengan hosting kamu.
 define('DB_HOST', 'localhost');         // Biasanya 'localhost' jika database di server yang sama.
 define('DB_NAME', 'u951570841_kontraktor');              // Nama database kita yang sudah kita sepakati!
-define('DB_USER', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
-define('DB_PASS', 'Azrinaj4y4#');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
+define('DB_USERNAME', 'u951570841_ridwan');              // Ganti dengan username database MySQL kamu.
+define('DB_PASSWORD', 'Azrinaj4y4#');                  // Ganti dengan password database MySQL kamu (kosongkan jika tidak ada).
 
 // --- TAHAP 3: PENGATURAN DASAR APLIKASI ---
 // Pastikan BASE_URL sudah benar, diakhiri dengan garis miring '/'.
