@@ -2,11 +2,20 @@
 session_start();
 require_once 'config.php';
 
-// Redirect mandor ke halaman catat absensi
-if ($_SESSION['role'] == 'mandor') {
-    header("Location: absensi/catat.php");
-    exit();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . 'auth/login.php?error=2'); 
+    exit;
 }
+
+$allowed_roles = ['super_admin', 'admin'];
+if (!in_array($_SESSION['role'], $allowed_roles)) {
+    $_SESSION['pesan_error'] = "MAAF, ANDA TIDAK MEMILIKI HAK AKSES KE HALAMAN MANAJEMEN KLIEN.";
+    header('Location: ' . BASE_URL . 'dashboard.php');
+    exit;
+}
+
+$user_role = $_SESSION['role'];
+
 
 $page_title = "Dashboard";
 
@@ -155,7 +164,15 @@ $query_7days = "SELECT tanggal,
                 ORDER BY tanggal DESC";
 $result_7days = mysqli_query($conn, $query_7days);
 
-include 'includes/header.php';
+require_once '../includes/header.php'; 
+if ($user_role == 'super_admin') {
+    require_once '../includes/sidebar_super_admin.php';
+} elseif ($user_role == 'admin') {
+    require_once '../includes/sidebar_admin.php';
+}
+?>
+
+
 ?>
 
 <div class="container mx-auto px-4 py-6">
