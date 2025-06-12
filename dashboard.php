@@ -45,8 +45,8 @@ $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
                           FROM absensi 
                           WHERE tanggal = CURDATE()
                       )";
-$result_belum_absen = mysqli_query($conn, $query_belum_absen);
-$belum_absen = mysqli_fetch_assoc($result_belum_absen)['total'];
+// // $result_belum_absen = mysqli_query($conn, $query_belum_absen);
+// $belum_absen = mysqli_fetch_assoc($result_belum_absen)['total'];
 
 // 4. Total klien
 $query_klien = "SELECT COUNT(*) as total FROM klien";
