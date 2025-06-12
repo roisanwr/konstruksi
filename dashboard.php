@@ -3,7 +3,7 @@ session_start();
 require_once 'config.php';
 require_once 'includes/auth_check.php';
 
-// Hanya admin dan super_admin yang bisa akses dashboard ini
+// Redirect mandor ke halaman catat absensi
 if ($_SESSION['role'] == 'mandor') {
     header("Location: absensi/catat.php");
     exit();
@@ -13,24 +13,24 @@ $page_title = "Dashboard";
 
 // Query untuk Quick Stats
 // 1. Pekerja hadir hari ini
-$query_hadir = "SELECT COUNT(DISTINCT a.pekerja_id) as hadir,
-                (SELECT COUNT(*) FROM pekerja WHERE status = 'aktif') as total_pekerja
+$query_hadir = "SELECT COUNT(DISTINCT a.id_pekerja) as hadir,
+                (SELECT COUNT(*) FROM pekerja WHERE is_active = 1) as total_pekerja
                 FROM absensi a 
-                WHERE a.tanggal = CURDATE() AND a.status = 'hadir'";
+                WHERE a.tanggal = CURDATE() AND a.status_hadir = 1";
 $result_hadir = mysqli_query($conn, $query_hadir);
 $data_hadir = mysqli_fetch_assoc($result_hadir);
 
 // 2. Proyek aktif
-$query_proyek_aktif = "SELECT COUNT(*) as total FROM proyek WHERE status = 'aktif'";
+$query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
 $result_proyek = mysqli_query($conn, $query_proyek_aktif);
 $proyek_aktif = mysqli_fetch_assoc($result_proyek)['total'];
 
 // 3. Proyek belum diabsen hari ini
-$query_belum_absen = "SELECT COUNT(DISTINCT p.id) as total
-                      FROM proyek p
-                      WHERE p.status = 'aktif'
-                      AND p.id NOT IN (
-                          SELECT DISTINCT proyek_id 
+$query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
+                      FROM projek p
+                      WHERE p.status = 'active'
+                      AND p.id_projek NOT IN (
+                          SELECT DISTINCT id_projek 
                           FROM absensi 
                           WHERE tanggal = CURDATE()
                       )";
@@ -38,15 +38,15 @@ $result_belum_absen = mysqli_query($conn, $query_belum_absen);
 $belum_absen = mysqli_fetch_assoc($result_belum_absen)['total'];
 
 // 4. Total klien
-$query_klien = "SELECT COUNT(*) as total FROM klien WHERE status = 'aktif'";
+$query_klien = "SELECT COUNT(*) as total FROM klien";
 $result_klien = mysqli_query($conn, $query_klien);
 $total_klien = mysqli_fetch_assoc($result_klien)['total'];
 
 // 5. Proyek selesai bulan ini
-$query_selesai = "SELECT COUNT(*) as total FROM proyek 
-                  WHERE status = 'selesai' 
-                  AND MONTH(tanggal_selesai) = MONTH(CURDATE()) 
-                  AND YEAR(tanggal_selesai) = YEAR(CURDATE())";
+$query_selesai = "SELECT COUNT(*) as total FROM projek 
+                  WHERE status = 'completed' 
+                  AND MONTH(tanggal_selesai_projek) = MONTH(CURDATE()) 
+                  AND YEAR(tanggal_selesai_projek) = YEAR(CURDATE())";
 $result_selesai = mysqli_query($conn, $query_selesai);
 $proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
 
@@ -54,25 +54,26 @@ $proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
 $alerts = [];
 
 // Alert 1: Proyek mendekati deadline (7 hari)
-$query_deadline = "SELECT nama_proyek, DATEDIFF(tanggal_selesai, CURDATE()) as sisa_hari 
-                   FROM proyek 
-                   WHERE status = 'aktif' 
-                   AND DATEDIFF(tanggal_selesai, CURDATE()) BETWEEN 0 AND 7
+$query_deadline = "SELECT namaprojek, DATEDIFF(tanggal_selesai_projek, CURDATE()) as sisa_hari 
+                   FROM projek 
+                   WHERE status = 'active' 
+                   AND tanggal_selesai_projek IS NOT NULL
+                   AND DATEDIFF(tanggal_selesai_projek, CURDATE()) BETWEEN 0 AND 7
                    ORDER BY sisa_hari ASC";
 $result_deadline = mysqli_query($conn, $query_deadline);
 while ($row = mysqli_fetch_assoc($result_deadline)) {
     $alerts[] = [
         'type' => 'warning',
-        'message' => "Proyek {$row['nama_proyek']} deadline {$row['sisa_hari']} hari lagi"
+        'message' => "Proyek {$row['namaprojek']} deadline {$row['sisa_hari']} hari lagi"
     ];
 }
 
 // Alert 2: Pekerja belum punya penugasan
 $query_no_assignment = "SELECT COUNT(*) as total FROM pekerja p
-                        WHERE p.status = 'aktif'
-                        AND p.id NOT IN (
-                            SELECT pekerja_id FROM penugasan 
-                            WHERE tanggal_selesai >= CURDATE() OR tanggal_selesai IS NULL
+                        WHERE p.is_active = 1
+                        AND p.id_pekerja NOT IN (
+                            SELECT id_pekerja FROM proyek_pekerja 
+                            WHERE is_active = 1
                         )";
 $result_no_assignment = mysqli_query($conn, $query_no_assignment);
 $no_assignment = mysqli_fetch_assoc($result_no_assignment)['total'];
@@ -84,72 +85,70 @@ if ($no_assignment > 0) {
 }
 
 // Alert 3: Pekerja tidak masuk 3 hari berturut-turut
-$query_absent = "SELECT p.nama, COUNT(*) as hari_tidak_masuk
+$query_absent = "SELECT p.namapekerja, 
+                 COUNT(DISTINCT DATE(a.tanggal)) as hari_masuk
                  FROM pekerja p
-                 JOIN penugasan pn ON p.id = pn.pekerja_id
-                 LEFT JOIN absensi a ON p.id = a.pekerja_id 
+                 JOIN proyek_pekerja pp ON p.id_pekerja = pp.id_pekerja
+                 LEFT JOIN absensi a ON p.id_pekerja = a.id_pekerja 
                      AND a.tanggal >= DATE_SUB(CURDATE(), INTERVAL 3 DAY)
                      AND a.tanggal < CURDATE()
-                 WHERE pn.tanggal_selesai >= CURDATE() OR pn.tanggal_selesai IS NULL
-                 GROUP BY p.id
-                 HAVING COUNT(DISTINCT a.tanggal) = 0";
+                     AND a.status_hadir = 1
+                 WHERE pp.is_active = 1
+                 GROUP BY p.id_pekerja
+                 HAVING hari_masuk = 0";
 $result_absent = mysqli_query($conn, $query_absent);
 while ($row = mysqli_fetch_assoc($result_absent)) {
     $alerts[] = [
         'type' => 'danger',
-        'message' => "{$row['nama']} sudah 3 hari berturut-turut tidak masuk"
+        'message' => "{$row['namapekerja']} sudah 3 hari berturut-turut tidak masuk"
     ];
 }
 
 // Query untuk Tabel Proyek Aktif
-$query_proyek_list = "SELECT p.*, k.nama_klien, u.nama as nama_mandor,
-                      (SELECT COUNT(DISTINCT pekerja_id) FROM penugasan 
-                       WHERE proyek_id = p.id AND (tanggal_selesai >= CURDATE() OR tanggal_selesai IS NULL)) as jumlah_pekerja,
-                      (SELECT COUNT(DISTINCT a.pekerja_id) FROM absensi a 
-                       JOIN penugasan pn ON a.pekerja_id = pn.pekerja_id AND a.proyek_id = pn.proyek_id
-                       WHERE a.proyek_id = p.id AND a.tanggal = CURDATE() AND a.status = 'hadir') as hadir_hari_ini
-                      FROM proyek p
-                      LEFT JOIN klien k ON p.klien_id = k.id
-                      LEFT JOIN users u ON p.mandor_id = u.id
-                      WHERE p.status = 'aktif'
-                      ORDER BY p.tanggal_mulai DESC
+$query_proyek_list = "SELECT p.*, k.nama_klien, 
+                      pk.namapekerja as nama_mandor,
+                      (SELECT COUNT(DISTINCT id_pekerja) FROM proyek_pekerja 
+                       WHERE id_projek = p.id_projek AND is_active = 1) as jumlah_pekerja,
+                      (SELECT COUNT(DISTINCT a.id_pekerja) FROM absensi a 
+                       WHERE a.id_projek = p.id_projek AND a.tanggal = CURDATE() AND a.status_hadir = 1) as hadir_hari_ini
+                      FROM projek p
+                      LEFT JOIN klien k ON p.id_klien = k.id_klien
+                      LEFT JOIN pekerja pk ON p.id_mandor_pekerja = pk.id_pekerja
+                      WHERE p.status = 'active'
+                      ORDER BY p.tanggal_mulai_projek DESC
                       LIMIT 5";
 $result_proyek_list = mysqli_query($conn, $query_proyek_list);
 
 // Query untuk Top 5 Klien
-$query_top_klien = "SELECT k.nama_klien, COUNT(p.id) as jumlah_proyek,
-                    SUM(CASE WHEN p.status = 'aktif' THEN 1 ELSE 0 END) as proyek_aktif
+$query_top_klien = "SELECT k.nama_klien, COUNT(p.id_projek) as jumlah_proyek,
+                    SUM(CASE WHEN p.status = 'active' THEN 1 ELSE 0 END) as proyek_aktif
                     FROM klien k
-                    LEFT JOIN proyek p ON k.id = p.klien_id
-                    WHERE k.status = 'aktif'
-                    GROUP BY k.id
+                    LEFT JOIN projek p ON k.id_klien = p.id_klien
+                    GROUP BY k.id_klien
                     HAVING jumlah_proyek > 0
                     ORDER BY proyek_aktif DESC, jumlah_proyek DESC
                     LIMIT 5";
 $result_top_klien = mysqli_query($conn, $query_top_klien);
 
 // Query untuk Pekerja dengan kehadiran rendah
-$query_low_attendance = "SELECT p.nama, 
-                         COUNT(DISTINCT a.tanggal) as hari_hadir,
-                         COUNT(DISTINCT DATE(pn.created_at)) as hari_kerja,
-                         ROUND((COUNT(DISTINCT a.tanggal) / COUNT(DISTINCT DATE(pn.created_at))) * 100, 1) as persentase
+$query_low_attendance = "SELECT p.namapekerja, 
+                         COUNT(DISTINCT CASE WHEN a.status_hadir = 1 THEN a.tanggal END) as hari_hadir,
+                         COUNT(DISTINCT a.tanggal) as hari_kerja,
+                         ROUND((COUNT(DISTINCT CASE WHEN a.status_hadir = 1 THEN a.tanggal END) / COUNT(DISTINCT a.tanggal)) * 100, 1) as persentase
                          FROM pekerja p
-                         JOIN penugasan pn ON p.id = pn.pekerja_id
-                         LEFT JOIN absensi a ON p.id = a.pekerja_id 
-                             AND a.status = 'hadir'
-                             AND a.tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-                         WHERE pn.created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-                         GROUP BY p.id
-                         HAVING persentase < 80
+                         JOIN absensi a ON p.id_pekerja = a.id_pekerja
+                         WHERE a.tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+                         GROUP BY p.id_pekerja
+                         HAVING persentase < 80 AND hari_kerja >= 5
                          ORDER BY persentase ASC
                          LIMIT 5";
 $result_low_attendance = mysqli_query($conn, $query_low_attendance);
 
 // Query untuk Absensi 7 hari terakhir
 $query_7days = "SELECT tanggal,
-                COUNT(DISTINCT CASE WHEN status = 'hadir' THEN pekerja_id END) as hadir,
-                COUNT(DISTINCT CASE WHEN status = 'tidak_hadir' THEN pekerja_id END) as tidak_hadir,
-                COUNT(DISTINCT pekerja_id) as total
+                COUNT(DISTINCT CASE WHEN status_hadir = 1 THEN id_pekerja END) as hadir,
+                COUNT(DISTINCT CASE WHEN status_hadir = 0 THEN id_pekerja END) as tidak_hadir,
+                COUNT(DISTINCT id_pekerja) as total
                 FROM absensi
                 WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
                 AND tanggal <= CURDATE()
@@ -188,7 +187,7 @@ include 'includes/header.php';
         </a>
 
         <!-- Card 2: Proyek Aktif -->
-        <a href="proyek/index.php?status=aktif" class="block">
+        <a href="proyek/index.php" class="block">
             <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
                 <div class="flex items-center">
                     <div class="p-3 bg-blue-100 rounded-full">
@@ -206,7 +205,7 @@ include 'includes/header.php';
         </a>
 
         <!-- Card 3: Belum Diabsen -->
-        <a href="absensi/index.php?filter=belum" class="block">
+        <a href="absensi/index.php" class="block">
             <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
                 <div class="flex items-center">
                     <div class="p-3 bg-yellow-100 rounded-full">
@@ -340,7 +339,7 @@ include 'includes/header.php';
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div>
-                                    <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($proyek['nama_proyek']); ?></div>
+                                    <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($proyek['namaprojek']); ?></div>
                                     <div class="text-sm text-gray-500"><?php echo htmlspecialchars($proyek['nama_klien']); ?></div>
                                 </div>
                             </td>
@@ -427,7 +426,7 @@ include 'includes/header.php';
                         ?>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                <?php echo htmlspecialchars($pekerja['nama']); ?>
+                                <?php echo htmlspecialchars($pekerja['namapekerja']); ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
                                 <?php echo $pekerja['hari_hadir']; ?>/<?php echo $pekerja['hari_kerja']; ?> hari
