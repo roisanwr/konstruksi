@@ -23,18 +23,18 @@ $user_role = $_SESSION['role'];
 $page_title = "Dashboard";
 
 // Query untuk Quick Stats
-// // 1. Pekerja hadir hari ini
-// $query_hadir = "SELECT COUNT(DISTINCT a.id_pekerja) as hadir,
-//                 (SELECT COUNT(*) FROM pekerja WHERE is_active = 1) as total_pekerja
-//                 FROM absensi a 
-//                 WHERE a.tanggal = CURDATE() AND a.status_hadir = 1";
-// $result_hadir = mysqli_query($conn, $query_hadir);
-// $data_hadir = mysqli_fetch_assoc($result_hadir);
+// 1. Pekerja hadir hari ini
+$query_hadir = "SELECT COUNT(DISTINCT a.id_pekerja) as hadir,
+                (SELECT COUNT(*) FROM pekerja WHERE is_active = 1) as total_pekerja
+                FROM absensi a 
+                WHERE a.tanggal = CURDATE() AND a.status_hadir = 1";
+$result_hadir = mysqli_query($conn, $query_hadir);
+$data_hadir = mysqli_fetch_assoc($result_hadir);
 
-// // 2. Proyek aktif
-// $query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
-// $result_proyek = mysqli_query($conn, $query_proyek_aktif);
-// $proyek_aktif = mysqli_fetch_assoc($result_proyek)['total'];
+// 2. Proyek aktif
+$query_proyek_aktif = "SELECT COUNT(*) as total FROM projek WHERE status = 'active'";
+$result_proyek = mysqli_query($conn, $query_proyek_aktif);
+$proyek_aktif = mysqli_fetch_assoc($result_proyek)['total'];
 
 // 3. Proyek belum diabsen hari ini
 $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
@@ -45,21 +45,21 @@ $query_belum_absen = "SELECT COUNT(DISTINCT p.id_projek) as total
                           FROM absensi 
                           WHERE tanggal = CURDATE()
                       )";
-// // $result_belum_absen = mysqli_query($conn, $query_belum_absen);
-// $belum_absen = mysqli_fetch_assoc($result_belum_absen)['total'];
+$result_belum_absen = mysqli_query($conn, $query_belum_absen);
+$belum_absen = mysqli_fetch_assoc($result_belum_absen)['total'];
 
 // 4. Total klien
 $query_klien = "SELECT COUNT(*) as total FROM klien";
-// $result_klien = mysqli_query($conn, $query_klien);
-// $total_klien = mysqli_fetch_assoc($result_klien)['total'];
+$result_klien = mysqli_query($conn, $query_klien);
+$total_klien = mysqli_fetch_assoc($result_klien)['total'];
 
 // 5. Proyek selesai bulan ini
 $query_selesai = "SELECT COUNT(*) as total FROM projek 
                   WHERE status = 'completed' 
                   AND MONTH(tanggal_selesai_projek) = MONTH(CURDATE()) 
                   AND YEAR(tanggal_selesai_projek) = YEAR(CURDATE())";
-// $result_selesai = mysqli_query($conn, $query_selesai);
-// $proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
+$result_selesai = mysqli_query($conn, $query_selesai);
+$proyek_selesai = mysqli_fetch_assoc($result_selesai)['total'];
 
 // Query untuk Alert/Warning
 $alerts = [];
