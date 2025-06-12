@@ -9,9 +9,8 @@ $current_uri_path_mandor = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $base_url_path_mandor = rtrim(parse_url(BASE_URL, PHP_URL_PATH), '/');
 $relative_path_mandor = ltrim(str_replace($base_url_path_mandor, '', $current_uri_path_mandor), '/');
 
-if ($relative_path_mandor == 'dashboard.php' || $relative_path_mandor == '') {
-    $menu_aktif_mandor = 'dashboard_mandor';
-} elseif (strpos($relative_path_mandor, 'proyek/proyek_saya.php') === 0 || 
+
+if (strpos($relative_path_mandor, 'proyek/proyek_saya.php') === 0 || 
            strpos($relative_path_mandor, 'penugasan/detail_tim.php') === 0 || 
            strpos($relative_path_mandor, 'penugasan/tambah.php') === 0 ||
            strpos($relative_path_mandor, 'penugasan/edit.php') === 0) {
@@ -45,10 +44,6 @@ if ($relative_path_mandor == 'dashboard.php' || $relative_path_mandor == '') {
             
             <p class="px-4 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Menu Utama</p>
             <nav class="space-y-1.5"> 
-                <a href="<?php echo BASE_URL; ?>dashboard.php" 
-                   class="<?php echo $menu_aktif_mandor == 'dashboard_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
-                    <i class="fas fa-tachometer-alt fa-fw mr-3"></i> Dashboard
-                </a>
                 <a href="<?php echo BASE_URL; ?>proyek/proyek_saya.php" 
                    class="<?php echo $menu_aktif_mandor == 'proyek_saya_mandor' ? 'bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50/80 dark:hover:bg-gray-700/50'; ?> group flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out hover:scale-[1.02]">
                     <i class="fas fa-briefcase fa-fw mr-3"></i> Proyek Saya
