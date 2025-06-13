@@ -36,6 +36,7 @@ if ($user_role == 'super_admin') {
 }
 ?>
 
+<div class="md:ml-72 flex flex-col flex-1">
 <main class="content-wrapper mt-16 md:ml-72 flex-1"> <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
@@ -61,7 +62,8 @@ if ($user_role == 'super_admin') {
         ?>
 
         </div>
-</main>
+    </main>
+</div>
 
 <?php
 // 7. Memanggil komponen template: FOOTER
