@@ -141,7 +141,7 @@ if(!isset($_SESSION['user_id'])) {
                             onclick="toggleSidebar()">
                         <i class="fas fa-bars text-xl transform transition-transform duration-300 group-hover:rotate-180"></i>
                     </button>
-                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">CeritaKita</span>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">Azrina</span>
                 </div>
 
                 <!-- Right side -->
