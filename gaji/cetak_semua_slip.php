@@ -26,17 +26,18 @@ if (empty($periode_start) || empty($periode_end)) {
 }
 
 // 3. Query untuk mengambil semua detail yang dibutuhkan untuk slip gaji dalam periode ini
-// Sesuaikan query agar mengambil data yang sama seperti cetak_slip.php,
-// tetapi untuk semua pekerja dalam periode yang ditentukan.
+// MENGHAPUS JOIN ke tabel 'projek' karena id_projek tidak ada di tabel gaji.
 $sql = "SELECT
             g.*,
             p.namapekerja,
-            j.namajabatan,
-            pr.namaprojek
+            p.nomor_rekening,
+            p.nama_bank,
+            p.npwp,
+            p.nik,
+            j.namajabatan
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
         JOIN jabatan j ON p.id_jabatan = j.id_jabatan
-        JOIN projek pr ON p.idprojek = pr.idprojek
         WHERE g.periode_start = ? AND g.periode_end = ?
         ORDER BY p.namapekerja ASC"; // Urutkan berdasarkan nama pekerja
 
@@ -107,7 +108,7 @@ header('Content-Type: text/html; charset=UTF-8');
             width: fit-content;
         }
         .header h1 { margin: 0; font-size: 24px; color: #1a202c; }
-        .header p { margin: 5px 0 0; color: #718096; }
+        .header p { margin: 5px 0 0; color: #718096; } /* Ini akan dihapus karena tidak ada namaprojek lagi */
         .info-section { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; }
         .info-section div { flex-basis: 48%; }
         .info-section strong { display: inline-block; width: 120px; }
@@ -201,7 +202,8 @@ header('Content-Type: text/html; charset=UTF-8');
                         <img src="../assets/img/azrina_logo.png" alt="Logo projek Jaya Konstruksi minimalis with white background and subtle shadow" />
                         <div class="header-text">
                             <h1>SLIP GAJI KARYAWAN</h1>
-                            <p><?php echo htmlspecialchars($slip_data['namaprojek']); ?></p>
+                            <!-- Menghapus p yang menampilkan namaprojek karena tidak ada di tabel gaji -->
+                            <!-- <p><?php echo htmlspecialchars($slip_data['namaprojek']); ?></p> -->
                         </div>
                     </div>
                     <div class="info-section">
