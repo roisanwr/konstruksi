@@ -36,7 +36,7 @@ $sql = "SELECT
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
         JOIN jabatan j ON p.id_jabatan = j.id_jabatan
-        JOIN projek pr ON p.id_projek = pr.id_projek
+        JOIN projek pr ON p.idprojek = pr.idprojek
         WHERE g.periode_start = ? AND g.periode_end = ?
         ORDER BY p.namapekerja ASC"; // Urutkan berdasarkan nama pekerja
 
