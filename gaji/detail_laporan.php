@@ -66,15 +66,16 @@ elseif ($user_role == 'admin') { require_once '../includes/sidebar_admin.php'; }
                     Periode: <span class="font-semibold"><?php echo date('d M Y', strtotime($periode_start)); ?></span> - 
                     <span class="font-semibold"><?php echo date('d M Y', strtotime($periode_end)); ?></span>
                 </p>
-
-                <div class="mt-4">
-                    <a href="<?php echo BASE_URL; ?>gaji/cetak_semua_slip.php?start=<?php echo urlencode($periode_start); ?>&end=<?php echo urlencode($periode_end); ?>" target="_blank"
-                       class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
-                        <i class="fas fa-print fa-fw mr-2"></i> Print Semua Slip
-                    </a>
-                </div>
             </div>
             
+            <!-- Tombol Print Semua Slip -->
+            <div class="mt-4">
+                <a href="<?php echo BASE_URL; ?>gaji/cetak_semua_slip.php?start=<?php echo urlencode($periode_start); ?>&end=<?php echo urlencode($periode_end); ?>" target="_blank"
+                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
+                    <i class="fas fa-print fa-fw mr-2"></i> Print Semua Slip
+                </a>
+            </div>
+
             <div class="overflow-x-auto shadow-md rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-100 dark:bg-gray-700">
