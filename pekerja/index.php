@@ -11,7 +11,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // 3. Autorisasi: Hanya Super Admin dan Admin yang boleh akses halaman ini untuk melihat SEMUA pekerja.
-// (Nanti Mandor mungkin bisa lihat pekerja tertentu, tapi itu di modul lain atau dengan filter)
 $allowed_roles = ['super_admin', 'admin'];
 if (!in_array($_SESSION['role'], $allowed_roles)) {
     $_SESSION['pesan_error'] = "MAAF, ANDA TIDAK MEMILIKI HAK AKSES KE HALAMAN MANAJEMEN PEKERJA.";
@@ -22,7 +21,7 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
 // Ambil role pengguna dari session untuk menentukan sidebar mana yang di-load
 $user_role = $_SESSION['role'];
 
-// 4. Ambil data untuk filter (Jabatan dan Status)
+// 4. Ambil data untuk filter (Jabatan, Status, dan Nama Pekerja)
 // Data Jabatan untuk dropdown filter
 $query_jabatan_filter = "SELECT id_jabatan, namajabatan FROM jabatan ORDER BY namajabatan ASC";
 $result_jabatan_filter = mysqli_query($koneksi, $query_jabatan_filter);
@@ -31,6 +30,7 @@ $daftar_jabatan_filter = $result_jabatan_filter ? mysqli_fetch_all($result_jabat
 // 5. Logika untuk filter
 $filter_id_jabatan = $_GET['id_jabatan'] ?? '';
 $filter_is_active = $_GET['is_active'] ?? ''; // '1', '0', atau '' (semua)
+$filter_nama_pekerja = $_GET['nama_pekerja'] ?? ''; // Menangkap input nama pekerja
 
 $where_clauses = [];
 $bind_types = "";
@@ -48,6 +48,13 @@ if ($filter_is_active !== '') { // Jika tidak kosong, berarti ada pilihan 'Aktif
     $where_clauses[] = "p.is_active = ?";
     $bind_types .= "i";
     $bind_values[] = intval($filter_is_active);
+}
+
+// Filter berdasarkan Nama Pekerja
+if (!empty($filter_nama_pekerja)) {
+    $where_clauses[] = "p.namapekerja LIKE ?";
+    $bind_types .= "s";
+    $bind_values[] = "%" . $filter_nama_pekerja . "%"; // Gunakan wildcard untuk pencarian parsial
 }
 
 $where_sql = "";
@@ -119,7 +126,14 @@ if ($user_role == 'super_admin') {
 
             <!-- Form Filter Pekerja -->
             <form method="GET" action="" class="mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border dark:border-gray-600">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 items-end">
+                    <div>
+                        <label for="nama_pekerja" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cari Nama Pekerja</label>
+                        <input type="text" name="nama_pekerja" id="nama_pekerja" 
+                               value="<?php echo htmlspecialchars($filter_nama_pekerja); ?>"
+                               placeholder="Cari nama..."
+                               class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                    </div>
                     <div>
                         <label for="id_jabatan" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Filter Jabatan</label>
                         <select name="id_jabatan" id="id_jabatan" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
