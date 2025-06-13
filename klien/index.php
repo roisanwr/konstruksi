@@ -91,8 +91,8 @@ if ($user_role == 'super_admin') {
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200"><?php echo $nomor++; ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-white"><?php echo htmlspecialchars($klien['nama_klien']); ?></td>
                                     <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-200 break-words"><?php echo nl2br(htmlspecialchars($klien['alamat_klien'])); ?></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200"><?php echo htmlspecialchars($klien['no_telp_klien']); ?></td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200"><?php echo htmlspecialchars($klien['email_klien']); ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200"><?php echo htmlspecialchars($klien['no_telp_klien'] ?? ''); ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200"><?php echo htmlspecialchars($klien['email_klien'] ?? ''); ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                                         <a href="<?php echo BASE_URL; ?>klien/edit.php?id=<?php echo $klien['id_klien']; ?>" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-200 mr-3 transition-colors duration-150" title="Edit">
                                             <i class="fas fa-edit fa-fw"></i> <span class="sr-only">Edit</span>
