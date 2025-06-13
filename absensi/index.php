@@ -154,7 +154,7 @@ elseif ($user_role == 'admin') { require_once '../includes/sidebar_admin.php'; }
                                     <td class="px-6 py-4 text-center ...">
                                         <?php echo $absen['lembur'] ? "<span class='text-blue-500'><i class='fas fa-check-circle'></i></span>" : '-'; ?>
                                     </td>
-                                    <td class="px-6 py-4 ..."><?php echo htmlspecialchars($absen['keterangan']); ?></td>
+                                    <td class="px-6 py-4 ..."><?php echo htmlspecialchars($absen['keterangan'] ?? ''); ?></td>
                                     <td class="px-6 py-4 ..."><?php echo htmlspecialchars($absen['nama_mandor_pencatat'] ?? 'N/A'); ?></td>
                                     <td class="px-6 py-4 text-center ...">
                                         <a href="<?php echo BASE_URL; ?>absensi/admin_edit.php?id_absensi=<?php echo $absen['id_absensi']; ?>" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-600" title="Edit Absensi">
