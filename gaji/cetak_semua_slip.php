@@ -30,10 +30,7 @@ if (empty($periode_start) || empty($periode_end)) {
 $sql = "SELECT
             g.*,
             p.namapekerja,
-            p.nomor_rekening,
-            p.nama_bank,
-            p.npwp,
-            p.nik,
+            p.no_rek,
             j.namajabatan
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
