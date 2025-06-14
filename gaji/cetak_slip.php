@@ -142,6 +142,7 @@ function format_rupiah($angka) {
                 <img src="../assets/img/azrina_logo.png" alt="Logo projek Jaya Konstruksi minimalis with white background and subtle shadow" />
                 <div class="header-text">
                     <h1>SLIP GAJI KARYAWAN</h1>
+                    <p><?php echo htmlspecialchars($slip_data['namaprojek']); ?></p>
                 </div>
             </div>
             <div class="info-section">
