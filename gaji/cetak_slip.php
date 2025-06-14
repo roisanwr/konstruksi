@@ -24,11 +24,9 @@ $sql = "SELECT
             g.*,
             p.namapekerja,
             j.namajabatan,
-            pr.namaprojek
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
         JOIN jabatan j ON p.id_jabatan = j.id_jabatan
-        JOIN projek pr ON p.id_projek = pr.id_projek
         WHERE g.id_gaji = ?";
 // ...existing code...
 
