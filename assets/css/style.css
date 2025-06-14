@@ -134,11 +134,61 @@
 }
 
 /* Smooth sidebar transition */
-#sidebar {
+/* #sidebar {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
     touch-action: pan-y pinch-zoom;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+} */
+
+/* Sidebar Default State and Transitions */
+/* #sidebar CSS yang sudah ada tetap dipertahankan, kecuali md:translate-x-0 sudah dihapus */
+#sidebar {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* Mobile: Ketika sidebar diperluas (terbuka) */
+/* By default, sidebar is -translate-x-full (hidden) */
+body.sidebar-expanded #sidebar {
+    transform: translateX(0) !important; /* Paksa sidebar terlihat di mobile */
+}
+
+/* Desktop (breakpoint md: 768px dan ke atas) */
+@media (min-width: 768px) {
+    /* Ketika body memiliki kelas sidebar-expanded (sidebar terbuka) */
+    body.sidebar-expanded #sidebar {
+        transform: translateX(0) !important; /* Pastikan sidebar terlihat di desktop */
+    }
+
+    /* Ketika body memiliki kelas sidebar-expanded, geser konten utama */
+    body.sidebar-expanded .content-wrapper {
+        margin-left: 18rem; /* Sesuaikan dengan lebar sidebar (md:w-72 = 18rem) */
+    }
+
+    /* Ketika body TIDAK memiliki kelas sidebar-expanded (sidebar tertutup) */
+    body:not(.sidebar-expanded) #sidebar {
+        transform: translateX(-18rem) !important; /* Sembunyikan sidebar di desktop */
+    }
+
+    /* Ketika body TIDAK memiliki kelas sidebar-expanded, geser konten utama kembali */
+    body:not(.sidebar-expanded) .content-wrapper {
+        margin-left: 0 !important; /* Geser konten utama ke kiri */
+    }
+
+    /* Pastikan overlay selalu tersembunyi di desktop, terlepas dari state JS */
+    #sidebar-overlay {
+        display: none !important;
+    }
+
+    /* Hapus  dari tag <main> di semua halaman */
+    /* Ini penting karena margin-left sekarang dikontrol oleh CSS ini */
+    .content-wrapper {
+        /* Hapus atau pastikan tidak ada  di sini jika kamu memindahkannya dari HTML */
+        /* Contoh: jika di HTML: <main class="content-wrapper mt-16 "> */
+        /* Maka di sini hanya perlu: margin-left: 0; atau tanpa aturan margin-left */
+        /* Default margin-left di desktop akan dikelola oleh body:not(.sidebar-expanded) atau body.sidebar-expanded */
+    }
 }
 
 /* Sidebar Toggle Button Animation */
