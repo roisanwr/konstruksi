@@ -2,18 +2,18 @@
 // File: dashboard.php (di folder root proyek_jaya/)
 
 // 1. Panggil Konfigurasi dan mulai session (jika belum)
-require_once 'config.php'; 
+require_once 'config.php'; // Ini akan memanggil session_start() dari config.php kita
 
 // 2. AUTHENTICATION CHECK (SANGAT PENTING!)
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . 'auth/login.php?error=2'); 
+    header('Location: ' . BASE_URL . 'auth/login.php?error=2'); // error=2 artinya "Anda harus login dulu"
     exit;
 }
 
 // 3. Ambil informasi pengguna dari session untuk personalisasi dan RBAC
 $user_id = $_SESSION['user_id'];
 $username = isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Pengguna';
-$user_role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; 
+$user_role = isset($_SESSION['role']) ? $_SESSION['role'] : ''; // Misal: 'super_admin', 'admin', 'mandor'
 
 // 4. Memanggil komponen template: HEADER
 require_once 'includes/header.php'; 
@@ -26,7 +26,7 @@ if ($user_role == 'super_admin') {
 } elseif ($user_role == 'mandor') {
     require_once 'includes/sidebar_mandor.php';
 } else {
-    // Jika role tidak dikenali, tidak ada sidebar yang dimuat.
+    // Role tidak dikenali
 }
 ?>
 
@@ -47,15 +47,14 @@ if ($user_role == 'super_admin') {
             </div>
 
             <?php
-            // Anda bisa meletakkan kode untuk konten dinamis lainnya di sini.
+            // Konten dinamis Anda bisa diletakkan di sini
             ?>
 
         </div>
     </main>
 
     <?php
-    // [FOOTER]
-    // Pemanggilan file footer sekarang berada DI DALAM wrapper utama agar posisinya benar.
+    // PEMANGGILAN FOOTER SEKARANG ADA DI DALAM WRAPPER
     require_once 'includes/footer.php'; 
     ?>
 
