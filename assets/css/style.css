@@ -135,61 +135,11 @@
 }
 
 /* Smooth sidebar transition */
-/* #sidebar {
+#sidebar {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
     touch-action: pan-y pinch-zoom;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
-} */
-
-/* Sidebar Default State and Transitions */
-#sidebar {
-    /* Default: hidden on mobile, visible on desktop (handled by md:translate-x-0 in HTML) */
-    width: 85%; /* Mobile width */
-    max-width: 320px; /* Mobile max-width */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
-}
-
-/* Mobile Specific: When body has sidebar-collapsed class, hide sidebar */
-@media (max-width: 767px) { /* Ini sama dengan <= Tailwind md breakpoint */
-    body.sidebar-collapsed #sidebar {
-        transform: translateX(-100%) !important; /* Sembunyikan di mobile */
-    }
-
-    body:not(.sidebar-collapsed) #sidebar {
-        transform: translateX(0) !important; /* Tampilkan di mobile */
-    }
-}
-
-/* Desktop (breakpoint md: 768px dan ke atas) */
-@media (min-width: 768px) {
-    #sidebar {
-        width: 18rem; /* Desktop width for sidebar (equivalent to md:w-72) */
-        /* md:translate-x-0 in HTML makes it visible by default */
-        /* No need for transform: translateX(0) here, md:translate-x-0 already does it */
-    }
-
-    /* When body has sidebar-collapsed class, hide sidebar on desktop */
-    body.sidebar-collapsed #sidebar {
-        transform: translateX(-18rem) !important; /* Sembunyikan di desktop */
-    }
-
-    /* Adjust content-wrapper margin based on sidebar state */
-    .content-wrapper {
-        margin-left: 18rem; /* Default margin for desktop (sidebar open) */
-        transition: margin-left 0.3s ease-in-out;
-    }
-
-    body.sidebar-collapsed .content-wrapper {
-        margin-left: 0 !important; /* Content takes full width when sidebar is collapsed */
-    }
-
-    /* Ensure overlay is always hidden on desktop */
-    #sidebar-overlay {
-        display: none !important;
-    }
 }
 
 /* Sidebar Toggle Button Animation */

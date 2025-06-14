@@ -26,25 +26,25 @@ if ($user_role == 'super_admin') {
 } elseif ($user_role == 'mandor') {
     require_once 'includes/sidebar_mandor.php';
 } else {
-    // Role tidak dikenali
+    // Jika role tidak dikenali, bisa tampilkan sidebar default atau pesan error,
+    // atau tidak tampilkan sidebar sama sekali. Untuk sekarang, kita diamkan.
+    // echo "<p>Error: Role pengguna tidak dikenali, sidebar tidak dapat dimuat.</p>";
 }
 ?>
 
-<div id="main-content-wrapper" class="flex flex-col flex-1">
-
-    <main class="flex-1 mt-16">
-        <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-            
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
-                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                    Selamat Datang di Dashboard Proyek Jaya, <?php echo $username; ?>!
-                </h1>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Peran Anda: <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $user_role))); ?>
-                </p>
-                <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-white">Ini adalah halaman dashboard utama. Kontennya masih kosong, tapi kerangkanya sudah ada!</p>
-                <p class="mt-2 text-xs text-gray-500">Waktu server saat ini: <?php echo date('d M Y, H:i:s'); ?> WIB</p>
-            </div>
+<div class="md:ml-72 flex flex-col flex-1">
+<main class="content-wrapper mt-16 md:ml-72 flex-1"> <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+                Selamat Datang di Dashboard Proyek Jaya, <?php echo $username; ?>!
+            </h1>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                Peran Anda: <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $user_role))); ?>
+            </p>
+            <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-white">Ini adalah halaman dashboard utama. Kontennya masih kosong, tapi kerangkanya sudah ada!</p>
+            <p class="mt-2 text-xs text-gray-500">Waktu server saat ini: <?php echo date('d M Y, H:i:s'); ?> WIB</p>
+        </div>
 
             <?php
             // Konten dinamis Anda bisa diletakkan di sini
