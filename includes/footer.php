@@ -1,4 +1,3 @@
-<!-- Footer -->
 <footer class="bg-white dark:bg-gray-800 shadow-lg w-full">
     <div class="max-w-7xl mx-auto py-4 px-4">
         <div class="flex justify-between items-center">
@@ -14,8 +13,9 @@
     </div>
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
 </body>
 </html>
