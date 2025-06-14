@@ -5,35 +5,6 @@
     box-sizing: border-box;
 }
 
-/*
-========================================
-ATURAN BARU UNTUK SIDEBAR TOGGLE
-========================================
-*/
-
-/* Transisi Halus untuk Sidebar dan Konten Utama */
-#sidebar, #main-content-wrapper {
-    transition: all 0.3s ease-in-out;
-}
-
-/* 1. Aturan untuk Sidebar */
-/* Saat body memiliki class .sidebar-collapsed, geser sidebar ke kiri hingga hilang */
-body.sidebar-collapsed #sidebar {
-    transform: translateX(-100%);
-}
-
-/* 2. Aturan untuk Konten Utama (di layar besar / desktop) */
-@media (min-width: 768px) {
-    /* Secara default, konten utama diberi margin kiri seukuran sidebar */
-    #main-content-wrapper {
-        margin-left: 18rem; /* 72 * 0.25rem = 18rem */
-    }
-
-    /* Saat body memiliki class .sidebar-collapsed, HAPUS margin kiri konten utama */
-    body.sidebar-collapsed #main-content-wrapper {
-        margin-left: 0;
-    }
-}
 
 /* Mobile-first responsive design */
 @media (max-width: 640px) {
