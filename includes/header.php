@@ -129,7 +129,25 @@ if(!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
 </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200 flex flex-col min-h-screen" x-data="{ isSidebarOpen: false }">
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200 flex flex-col min-h-screen" 
+      x-data="{ isDesktop: window.innerWidth >= 768 }" 
+      x-init="isDesktop && ($el.classList.add('sidebar-expanded')); 
+              window.addEventListener('resize', () => { 
+                  isDesktop = window.innerWidth >= 768; 
+                  if(isDesktop) {
+                      $el.classList.add('sidebar-expanded'); // Tetap terbuka di desktop
+                      $el.classList.remove('overflow-hidden'); // Hapus overflow di desktop
+                      document.getElementById('sidebar-overlay').classList.add('opacity-0', 'invisible'); // Sembunyikan overlay di desktop
+                  } else {
+                      // Opsional: jika menyusut dari desktop ke mobile dan sidebar terbuka, biarkan terbuka
+                      // tapi pastikan overlay dan overflow-hidden di mobile sesuai
+                      if ($el.classList.contains('sidebar-expanded')) {
+                          document.getElementById('sidebar-overlay').classList.remove('opacity-0', 'invisible');
+                          $el.classList.add('overflow-hidden');
+                      }
+                  }
+              });">
+              
     <!-- Top Navigation Bar -->
     <nav class="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-lg fixed w-full top-0 z-50 transition-all duration-300">
         <div class="max-w-full mx-auto px-4">
@@ -402,83 +420,83 @@ if(!isset($_SESSION['user_id'])) {
 
     <!-- Sidebar Control Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function toggleSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('sidebar-overlay');
-                const toggleBtn = document.getElementById('sidebar-toggle');
-                const icon = toggleBtn.querySelector('i');
-                
-                if (sidebar && overlay) {
-                    // Toggle sidebar
-                    sidebar.classList.toggle('-translate-x-full');
-                    
-                    // Toggle overlay with animation
-                    if (overlay.classList.contains('invisible')) {
-                        overlay.classList.remove('invisible');
-                        setTimeout(() => {
-                            overlay.classList.remove('opacity-0');
-                        }, 10);
-                    } else {
-                        overlay.classList.add('opacity-0');
-                        setTimeout(() => {
-                            overlay.classList.add('invisible');
-                        }, 300);
-                    }
-                    
-                    // Toggle body scroll
-                    document.body.classList.toggle('overflow-hidden');
-                    
-                    // Animate hamburger icon
-                    icon.classList.toggle('rotate-90');
-                }
-            }
+        // ... (kode JavaScript lainnya, seperti dark mode toggle) ...
 
-            // Initialize event listeners
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-            const overlay = document.getElementById('sidebar-overlay');
+        // Pastikan toggleSidebar dapat diakses secara global (karena dipanggil via onclick)
+        window.toggleSidebar = function() {
             const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            const icon = toggleBtn.querySelector('i');
+            
+            if (!sidebar || !overlay || !toggleBtn || !icon) return; // Keluar jika elemen tidak ditemukan
 
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', toggleSidebar);
-            }
+            const isMobile = window.innerWidth < 768;
 
-            if (overlay) {
-                overlay.addEventListener('click', toggleSidebar);
-            }
+            // Toggle kelas utama 'sidebar-expanded' pada body
+            document.body.classList.toggle('sidebar-expanded');
 
-            // Close sidebar when clicking links (mobile only)
-            if (sidebar) {
-                const links = sidebar.getElementsByTagName('a');
-                Array.from(links).forEach(link => {
-                    link.addEventListener('click', () => {
-                        if (window.innerWidth < 768) {
-                            toggleSidebar();
-                        }
-                    });
-                });
-            }
-
-            // Close sidebar on escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    const sidebar = document.getElementById('sidebar');
-                    if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
-                        toggleSidebar();
-                    }
+            // Mengelola overlay dan overflow-hidden HANYA untuk mobile
+            if (isMobile) {
+                if (document.body.classList.contains('sidebar-expanded')) {
+                    // Jika sidebar akan terbuka di mobile
+                    overlay.classList.remove('invisible');
+                    setTimeout(() => { overlay.classList.remove('opacity-0'); }, 10);
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    // Jika sidebar akan ditutup di mobile
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => { overlay.classList.add('invisible'); }, 300);
+                    document.body.classList.remove('overflow-hidden');
                 }
-            });
+            } else {
+                // Pada desktop, pastikan overlay selalu tersembunyi dan body tidak overflow
+                overlay.classList.add('opacity-0', 'invisible');
+                document.body.classList.remove('overflow-hidden');
+            }
 
-            // Handle window resize
+            // Animasi ikon hamburger
+            icon.classList.toggle('rotate-90');
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            const icon = toggleBtn.querySelector('i');
+
+            // Inisialisasi status sidebar di desktop saat DOMContentLoaded
+            // (x-init di body sudah menangani ini juga, tapi ini untuk memastikan konsistensi)
+            if (window.innerWidth >= 768) {
+                document.body.classList.add('sidebar-expanded'); // Sidebar terbuka secara default di desktop
+            }
+
+            // Listener untuk overlay (menutup sidebar saat diklik di mobile)
+            if (overlay) {
+                overlay.addEventListener('click', window.toggleSidebar);
+            }
+
+            // Menambahkan listener resize untuk menyesuaikan tampilan sidebar
             let resizeTimer;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(() => {
-                    const sidebar = document.getElementById('sidebar');
-                    const overlay = document.getElementById('sidebar-overlay');
-                    
-                    if (window.innerWidth >= 768 && sidebar && overlay) {
-                        sidebar.classList.add('-translate-x-full');
+                    const isMobile = window.innerWidth < 768;
+                    if (isMobile) {
+                        // Jika di mobile, dan body memiliki sidebar-expanded (berarti terbuka),
+                        // pastikan overlay dan overflow-hidden diaktifkan.
+                        if (document.body.classList.contains('sidebar-expanded')) {
+                            overlay.classList.remove('opacity-0', 'invisible');
+                            document.body.classList.add('overflow-hidden');
+                        } else {
+                            // Jika di mobile dan sidebar tertutup, pastikan overlay/overflow nonaktif
+                            overlay.classList.add('opacity-0', 'invisible');
+                            document.body.classList.remove('overflow-hidden');
+                        }
+                    } else { // Desktop
+                        // Di desktop, sidebar harus selalu terbuka (jika sudah diset isDesktop).
+                        // Pastikan overlay dan overflow-hidden dinonaktifkan.
+                        document.body.classList.add('sidebar-expanded'); // Paksa terbuka di desktop
                         overlay.classList.add('opacity-0', 'invisible');
                         document.body.classList.remove('overflow-hidden');
                     }

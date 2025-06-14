@@ -59,7 +59,7 @@ require_once '../includes/header.php';
 if ($user_role == 'super_admin') { require_once '../includes/sidebar_super_admin.php'; } 
 elseif ($user_role == 'admin') { require_once '../includes/sidebar_admin.php'; }
 ?>
-<main class="content-wrapper mt-16 md:ml-72">
+<main class="content-wrapper mt-16 ">
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8"> 
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
             <h1 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6">
