@@ -81,7 +81,7 @@ if ($user_role == 'super_admin') {
 }
 ?>
 
-<main class="content-wrapper mt-16 ">
+<main class="content-wrapper mt-16 md:ml-72">
     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8"> 
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
             <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-6">

@@ -23,8 +23,7 @@ if (strpos($relative_path_mandor, 'proyek/proyek_saya.php') === 0 ||
     $menu_aktif_mandor = 'riwayat_absensi_mandor';
 }
 ?>
-<aside id="sidebar" class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-[85%] max-w-[320px] md:w-72 h-[calc(100vh-4rem)] fixed left-0 top-16 transform -translate-x-full transition-all duration-300 ease-in-out shadow-lg z-40 overflow-y-auto">    <div class="h-full flex flex-col overflow-y-auto">
-        <div class="flex-1 px-4 py-4">
+<aside id="sidebar" class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-[85%] max-w-[320px] h-[calc(100vh-4rem)] fixed left-0 top-16 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg z-40 overflow-y-auto">        <div class="flex-1 px-4 py-4">
             <div class="flex flex-col items-center space-y-3 mb-6 -mt-2">
                 <div class="relative group">
                     <img class="h-16 w-16 rounded-full object-cover ring-2 ring-blue-500 dark:ring-blue-400 p-1 transition-transform duration-300 group-hover:scale-105" 

@@ -123,7 +123,7 @@ require_once '../includes/sidebar_mandor.php';
 ?>
 
 <!-- KONTEN UTAMA -->
-<main class="content-wrapper mt-16 ">
+<main class="content-wrapper mt-16 md:ml-72">
     <div class="max-w-full mx-auto p-4 sm:p-6 lg:p-8">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
             <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">

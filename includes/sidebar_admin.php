@@ -27,8 +27,7 @@ if ($relative_path == 'dashboard.php' || $relative_path == '') {
 }
 // Tambahkan modul lain di sini jika ada
 ?>
-<aside id="sidebar" class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-[85%] max-w-[320px] md:w-72 h-[calc(100vh-4rem)] fixed left-0 top-16 transform -translate-x-full transition-all duration-300 ease-in-out shadow-lg z-40 overflow-y-auto">    <div class="h-full flex flex-col overflow-y-auto">
-        <!-- Sidebar Content -->
+<aside id="sidebar" class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-[85%] max-w-[320px] h-[calc(100vh-4rem)] fixed left-0 top-16 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out shadow-lg z-40 overflow-y-auto">        <!-- Sidebar Content -->
         <div class="flex-1 px-4 py-4">
             <!-- Profile Section -->
             <div class="flex flex-col items-center space-y-3 mb-6 -mt-2">
