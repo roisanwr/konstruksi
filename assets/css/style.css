@@ -5,7 +5,28 @@
     box-sizing: border-box;
 }
 
+/* ATURAN UNTUK SIDEBAR & LAYOUT DINAMIS */
 
+#sidebar, #main-content-wrapper {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Aturan untuk menggeser sidebar keluar layar */
+body.sidebar-collapsed #sidebar {
+    transform: translateX(-100%);
+}
+
+/* Aturan untuk margin konten di layar desktop */
+@media (min-width: 768px) {
+    #main-content-wrapper {
+        margin-left: 18rem; /* 288px */
+    }
+
+    /* Hapus margin saat sidebar ditutup */
+    body.sidebar-collapsed #main-content-wrapper {
+        margin-left: 0;
+    }
+}
 /* Mobile-first responsive design */
 @media (max-width: 640px) {
     .dashboard-card {
