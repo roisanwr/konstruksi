@@ -23,7 +23,7 @@ $id_gaji = intval($_GET['id_gaji']);
 $sql = "SELECT
             g.*,
             p.namapekerja,
-            j.namajabatan,
+            j.namajabatan
         FROM gaji g
         JOIN pekerja p ON g.id_pekerja = p.id_pekerja
         JOIN jabatan j ON p.id_jabatan = j.id_jabatan
