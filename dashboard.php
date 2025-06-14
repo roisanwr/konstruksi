@@ -30,7 +30,7 @@ if ($user_role == 'super_admin') {
 }
 ?>
 
-<div id="main-content-wrapper" class="md:ml-72 flex flex-col flex-1">
+<div id="main-content-wrapper" class="flex flex-col flex-1">
 
     <main class="flex-1 mt-16">
         <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
