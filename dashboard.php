@@ -55,7 +55,7 @@ if ($user_role == 'super_admin') {
 
     <?php
     // PEMANGGILAN FOOTER SEKARANG ADA DI DALAM WRAPPER
-    // require_once 'includes/footer.php'; 
+    require_once 'includes/footer.php'; 
     ?>
 
 </div>
