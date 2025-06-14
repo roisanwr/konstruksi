@@ -107,7 +107,7 @@ if ($user_role == 'super_admin') {
 }
 ?>
 
-<main class="content-wrapper mt-16 ">
+<main class="content-wrapper mt-16 md:ml-72">
     <div class="max-w-full mx-auto p-4 sm:p-6 lg:p-8"> 
 
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
