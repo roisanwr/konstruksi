@@ -51,7 +51,7 @@ body {
 /* Latar belakang untuk bagian hero */
 .hero {
     background-color: #1f2937; 
-    background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('../img/background.png');
+    background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('../img/background7.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
