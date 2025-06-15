@@ -51,7 +51,7 @@
              <a href="#services" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Layanan</a>
              <a href="#portfolio" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Portofolio</a>
              <a href="#contact" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Kontak</a>
-             <a href="auth/login.php" class="block text-white bg-orange-600 hover:bg-orange-700 font-semibold py-2 px-4 rounded-lg transition duration-300 mt-2">Login</a>
+             <a href="auth/login.php" class="block text-gray-800 hover:bg-orange-100 py-2 px-4 font-semibold py-2 px-4 rounded-lg transition duration-300 mt-2">Login</a>
         </div>
     </header>
 
