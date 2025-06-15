@@ -15,15 +15,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Memanggil File CSS Eksternal -->
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body class="bg-white">
     <!-- Header -->
     <header class="header fixed w-full z-50 py-4 px-6 lg:px-16 text-gray-800">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Logo Perusahaan (Ukuran sudah diperbaiki) -->
+            <!-- Logo Perusahaan (Diperbarui) -->
             <div class="flex items-center">
-                <img src="https://placehold.co/200x60/000000/FFFFFF?text=AZRINA" alt="Logo Azrina" class="h-10 w-auto">     
+                <img src="assets/img/azrina_logo.png" alt="Logo Azrina" class="h-12 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x60/FFFFFF/000000?text=AZRINA';">     
             </div>
 
             <!-- Navigasi Menu -->
@@ -243,7 +243,7 @@
         <div class="container mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
                  <div class="flex items-center mb-4 md:mb-0">
-                    <img src="https://placehold.co/150x40/000000/FFFFFF?text=AZRINA" alt="Logo Azrina Footer" class="h-8 w-auto">     
+                    <img src="assets/img/azrina_logo.png" alt="Logo Azrina Footer" class="h-8 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/FFFFFF/000000?text=AZRINA';">     
                 </div>
                 <div class="mb-4 md:mb-0">
                     <p>&copy; <span id="year"></span> PT. Azrina Solusi Indonesia. Hak Cipta Dilindungi.</p>
@@ -258,6 +258,6 @@
     </footer>
 
     <!-- Memanggil File JavaScript Eksternal -->
-    <script src="assets/js/index.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
