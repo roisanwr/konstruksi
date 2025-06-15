@@ -37,7 +37,7 @@
                     <li><a href="#contact" class="nav-link px-3 py-2 hover:text-orange-600 transition">Kontak</a></li>
                 </ul>
             </nav>
-             <a href="#" class="hidden md:inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">Login</a>
+             <a href="auth/login.php" class="hidden md:inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">Login</a>
 
             <!-- Tombol Menu Mobile -->
             <button id="mobile-menu-button" class="md:hidden text-2xl focus:outline-none">
