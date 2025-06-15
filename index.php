@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Memanggil File CSS Eksternal (Path Diperbaiki dengan Cache Buster) -->
-    <link rel="stylesheet" href="assets/css/index.css?v=2">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
+
 <body class="bg-white">
     <!-- Header -->
     <header class="header fixed w-full z-50 py-4 px-6 lg:px-16">
@@ -202,14 +203,15 @@
     </section>
 
     <!-- Bagian Kontak -->
-    <section id="contact" class="py-20 px-6 lg:px-16 bg-gray-50">
+    <!-- Bagian Kontak -->
+    <section id="contact" class="py-20 px-6 lg:px-16 bg-white">
         <div class="container mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 scroll-reveal">Hubungi <span class="text-orange-600">Kami</span></h2>
             <p class="text-center text-gray-600 mb-16 max-w-2xl mx-auto scroll-reveal">Diskusikan proyek Anda selanjutnya bersama kami.</p>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Info Kontak 1: Alamat -->
-                <div class="bg-white p-8 rounded-lg shadow-md text-center scroll-reveal">
+                <div class="bg-gray-50 p-8 rounded-lg shadow-md text-center scroll-reveal">
                     <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                         <i class="fas fa-map-marker-alt text-orange-600 text-2xl"></i>
                     </div>
@@ -218,7 +220,7 @@
                 </div>
                 
                 <!-- Info Kontak 2: Email -->
-                <div class="bg-white p-8 rounded-lg shadow-md text-center scroll-reveal" style="transition-delay: 0.2s;">
+                <div class="bg-gray-50 p-8 rounded-lg shadow-md text-center scroll-reveal" style="transition-delay: 0.2s;">
                     <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                         <i class="fas fa-envelope text-orange-600 text-2xl"></i>
                     </div>
@@ -227,7 +229,7 @@
                 </div>
                 
                 <!-- Info Kontak 3: Telepon -->
-                <div class="bg-white p-8 rounded-lg shadow-md text-center scroll-reveal" style="transition-delay: 0.4s;">
+                <div class="bg-gray-50 p-8 rounded-lg shadow-md text-center scroll-reveal" style="transition-delay: 0.4s;">
                     <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                         <i class="fas fa-phone-alt text-orange-600 text-2xl"></i>
                     </div>
