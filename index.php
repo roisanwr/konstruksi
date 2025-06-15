@@ -60,7 +60,7 @@
     <!-- Header -->
     <header class="header fixed w-full z-50 py-4 px-6 lg:px-16">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center width-1/3">
+            <div class="flex items-center">
                     <img src="/assets/img/azrina_logo.png" alt="Azrina Logo" class="w-full h-full">     
             </div>
             <nav class="hidden md:block">
