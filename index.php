@@ -19,9 +19,9 @@
 </head>
 <body class="bg-white">
     <!-- Header -->
-    <header class="header fixed w-full z-50 py-4 px-6 lg:px-16 text-gray-800">
+    <header class="header fixed w-full z-50 py-4 px-6 lg:px-16">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Logo Perusahaan (Path sudah benar) -->
+            <!-- Logo Perusahaan -->
             <div class="flex items-center">
                 <img src="assets/img/azrina_logo.png" alt="Logo Azrina" class="h-12 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x60/FFFFFF/000000?text=AZRINA';">     
             </div>
@@ -39,7 +39,7 @@
              <a href="#" class="hidden md:inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">Login</a>
 
             <!-- Tombol Menu Mobile -->
-            <button id="mobile-menu-button" class="md:hidden text-2xl focus:outline-none text-gray-900">
+            <button id="mobile-menu-button" class="md:hidden text-2xl focus:outline-none">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -238,6 +238,23 @@
         </div>
     </section>
 
+        <!-- BARU: Bagian Lokasi & Peta -->
+    <section id="location" class="bg-gray-50 pb-20">
+        <div class="container mx-auto px-6 lg:px-16 scroll-reveal">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Lokasi <span class="text-orange-600">Kami</span></h2>
+            <div class="overflow-hidden rounded-lg shadow-xl">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.239322239379!2d106.8169993153949!3d-6.363001995395641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ec1f99131a97%3A0x6d8c92f15896e38a!2sAzrina%20Construction!5e0!3m2!1sen!2sid!4v1689230000000!5m2!1sen!2sid" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="py-8 px-6 bg-gray-900 text-white">
         <div class="container mx-auto">
@@ -256,6 +273,15 @@
             </div>
         </div>
     </footer>
+
+    <!-- BARU: Tombol WhatsApp Melayang -->
+    <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20dari%20Azrina%20Construction."
+       id="whatsapp-float-button"
+       target="_blank"
+       rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
 
     <!-- Memanggil File JavaScript Eksternal (Path Diperbaiki dengan Cache Buster) -->
     <script src="assets/js/index.js?v=2"></script>
