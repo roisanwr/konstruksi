@@ -226,7 +226,7 @@
         <div class="container mx-auto px-6 lg:px-16 scroll-reveal">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Lokasi <span class="text-orange-600">Kami</span></h2>
             <div class="overflow-hidden rounded-lg shadow-xl">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.239322239379!2d106.8169993153949!3d-6.363001995395641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ec1f99131a97%3A0x6d8c92f15896e38a!2sAzrina%20Construction!5e0!3m2!1sen!2sid!4v1689230000000!5m2!1sen!2sid" 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7930.402381705629!2d106.805336!3d-6.368004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69efb0465a472f%3A0x54b9e3525725ec40!2sAzrina%20Construction%20%7C%20Jasa%20bangun%20%26%20Renovasi%20rumah!5e0!3m2!1sid!2sid!4v1749973341925!5m2!1sid!2sid"
                 width="100%" 
                 height="450" 
                 style="border:0;" 
