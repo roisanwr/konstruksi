@@ -27,9 +27,9 @@ body {
     color: #333333; /* Pastikan ikon menu juga berubah warna */
 }
 
-/* Latar belakang untuk bagian hero (Gambar Diperbarui) */
+/* Latar belakang untuk bagian hero (URL Gambar Diperbaiki) */
 .hero {
-    background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('https://images.unsplash.com/photo-151107204-53374a450703?auto=format&fit=crop&w=1280&q=80') no-repeat center center/cover;
+    background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1280&q=80') no-repeat center center/cover;
 }
 
 /* Efek hover untuk kartu layanan */
