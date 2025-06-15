@@ -134,4 +134,50 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSpan.textContent = new Date().getFullYear();
     }
 
+    // --- BARU: Fungsionalitas Lightbox/Modal untuk Gambar Layanan ---
+    const modal = document.getElementById('image-modal');
+    if (modal) {
+        const modalImage = document.getElementById('modal-image');
+        const closeModalBtn = document.getElementById('close-modal');
+        const serviceImages = document.querySelectorAll('.service-img');
+
+        const showModal = (imgSrc) => {
+             // Jangan buka modal jika gambar adalah placeholder
+            if (imgSrc.includes('placehold.co')) {
+                return;
+            }
+            modalImage.src = imgSrc;
+            modal.classList.add('show');
+            document.body.classList.add('modal-open'); // Kunci scroll body
+        };
+
+        const hideModal = () => {
+            modal.classList.remove('show');
+            document.body.classList.remove('modal-open'); // Buka lagi kunci scroll
+        };
+
+        serviceImages.forEach(img => {
+            img.addEventListener('click', function() {
+                showModal(this.src);
+            });
+        });
+
+        closeModalBtn.addEventListener('click', hideModal);
+
+        modal.addEventListener('click', function(e) {
+            // Jika yang diklik adalah area overlay gelap (bukan gambar), tutup modal
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+
+        // Menutup modal dengan menekan tombol 'Escape' di keyboard
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                hideModal();
+            }
+        });
+    }
+
 });
+

@@ -100,46 +100,85 @@
         </div>
     </section>
 
-    <!-- Bagian Layanan -->
-    <section id="services" class="py-20 px-6 lg:px-16">
+    <!-- Bagian Layanan yang Baru -->
+    <section id="services" class="py-20 px-6 lg:px-16 bg-white">
         <div class="container mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 scroll-reveal">Layanan <span class="text-orange-600">Kami</span></h2>
-            <p class="text-center text-gray-600 mb-16 max-w-2xl mx-auto scroll-reveal">Solusi lengkap untuk segala kebutuhan proyek dan bisnis Anda.</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 scroll-reveal">Layanan Unggulan <span class="text-orange-600">Kami</span></h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto scroll-reveal">Solusi terintegrasi untuk mewujudkan setiap visi dan kebutuhan proyek Anda, dari awal hingga akhir.</p>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Layanan 1 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition duration-300 scroll-reveal">
-                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <i class="fas fa-drafting-compass text-orange-600 text-2xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                <!-- Layanan 1: Design & Build -->
+                <div class="service-card-new group scroll-reveal">
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="assets/img/layanan/layanan1.png" alt="Layanan Design & Build" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Design+%26+Build';">
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-center">Design & Build</h3>
-                    <p class="text-gray-700 text-center text-sm">Layanan terintegrasi mulai dari konsep desain hingga pembangunan fisik, memberikan efisiensi dan hasil yang presisi.</p>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Design & Build</h3>
+                        <p class="text-gray-700 mb-4">Merancang dan membangun impian Anda dari konsep awal hingga serah terima kunci dalam satu pintu yang efisien.</p>
+                        <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 transition">Pelajari Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
                 </div>
                 
-                <!-- Layanan 2 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition duration-300 scroll-reveal" style="transition-delay: 0.2s;">
-                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <i class="fas fa-hard-hat text-orange-600 text-2xl"></i>
+                <!-- Layanan 2: Jasa Konstruksi Umum -->
+                <div class="service-card-new group scroll-reveal" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="assets/img/layanan/layanan2.png" alt="Layanan Jasa Konstruksi" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Konstruksi+Umum';">
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-center">Jasa Konstruksi</h3>
-                    <p class="text-gray-700 text-center text-sm">Mengerjakan berbagai jenis proyek konstruksi dengan standar kualitas dan keamanan tertinggi.</p>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Jasa Konstruksi Umum</h3>
+                        <p class="text-gray-700 mb-4">Eksekusi proyek pembangunan perumahan, komersial, dan fasilitas umum dengan presisi dan standar kualitas tertinggi.</p>
+                        <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 transition">Pelajari Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
                 </div>
                 
-                <!-- Layanan 3 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition duration-300 scroll-reveal" style="transition-delay: 0.4s;">
-                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <i class="fas fa-box-open text-orange-600 text-2xl"></i>
+                <!-- Layanan 3: Renovasi & Interior -->
+                <div class="service-card-new group scroll-reveal" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="assets/img/layanan/layanan3.png" alt="Layanan Renovasi & Interior" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Renovasi+%26+Interior';">
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-center">Jasa renovasi</h3>
-                    <p class="text-gray-700 text-center text-sm">Merenovasi berbagai jenis bangunan dan menyesuaikan nye seperti keinginan anda.</p>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Renovasi & Interior</h3>
+                        <p class="text-gray-700 mb-4">Memberikan nafas dan fungsi baru pada properti Anda dengan sentuhan desain interior yang modern dan fungsional.</p>
+                        <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 transition">Pelajari Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
                 </div>
-                 <!-- Layanan 4 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition duration-300 scroll-reveal" style="transition-delay: 0.6s;">
-                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <i class="fas fa-users-cog text-orange-600 text-2xl"></i>
+
+                <!-- Layanan 4: Supplier & Pengadaan -->
+                <div class="service-card-new group scroll-reveal" style="transition-delay: 0.3s;">
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="assets/img/layanan/layanan4.png" alt="Layanan Supplier & Pengadaan" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Supplier';">
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-center">Konsultan gratis</h3>
-                    <p class="text-gray-700 text-center text-sm">Memberikan masukan arahan untuk mewujudkan rumah impian anda.</p>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Supplier & Pengadaan</h3>
+                        <p class="text-gray-700 mb-4">Menyediakan ATK, mesin, dan berbagai kebutuhan bisnis dengan kualitas terjamin dan pengiriman tepat waktu.</p>
+                        <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 transition">Pelajari Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Layanan 5: Konsultan Manajemen -->
+                <div class="service-card-new group scroll-reveal" style="transition-delay: 0.4s;">
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="assets/img/layanan/layanan5.png" alt="Layanan Konsultan Manajemen" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Konsultan';">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Konsultan Manajemen</h3>
+                        <p class="text-gray-700 mb-4">Memberikan panduan strategis untuk mengoptimalkan operasional, meningkatkan efisiensi, dan pertumbuhan bisnis Anda.</p>
+                        <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 transition">Pelajari Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Layanan 6: Penerbitan & Percetakan -->
+                <div class="service-card-new group scroll-reveal" style="transition-delay: 0.5s;">
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="assets/img/layanan/layanan6.png" alt="Layanan Penerbitan & Percetakan" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Percetakan';">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Penerbitan & Percetakan</h3>
+                        <p class="text-gray-700 mb-4">Wujudkan karya tulis dan berbagai materi promosi Anda dengan hasil cetak berkualitas tinggi dan desain profesional.</p>
+                        <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 transition">Pelajari Selengkapnya <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,7 +241,6 @@
         </div>
     </section>
 
-    <!-- Bagian Kontak -->
     <!-- Bagian Kontak -->
     <section id="contact" class="py-20 px-6 lg:px-16 bg-white">
         <div class="container mx-auto">
@@ -285,8 +323,13 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- BARU: Struktur Lightbox/Modal untuk Gambar -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 z-[9999] hidden items-center justify-center p-4 transition-opacity duration-300">
+        <span id="close-modal" class="absolute top-4 right-6 text-white text-5xl font-bold cursor-pointer hover:text-gray-300 transition-colors">&times;</span>
+        <img id="modal-image" src="" alt="Layanan Diperbesar" class="max-w-[95vw] max-h-[90vh] rounded-lg shadow-2xl">
+    </div>
 
-    <!-- Memanggil File JavaScript Eksternal (Path Diperbaiki dengan Cache Buster) -->
-    <script src="assets/js/index.js?v=2"></script>
+    <!-- Memanggil File JavaScript Eksternal -->
+    <script src="assets/js/index.js?v=7"></script>
 </body>
 </html>
