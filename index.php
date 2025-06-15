@@ -37,7 +37,7 @@
                     <li><a href="#contact" class="nav-link px-3 py-2 hover:text-orange-600 transition">Kontak</a></li>
                 </ul>
             </nav>
-             <a href="auth/login.php" class="hidden md:inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">Login</a>
+             <a href="auth/login.php" class="hidden md:inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300 z-50" style="position:relative;">Login</a>
 
             <!-- Tombol Menu Mobile -->
             <button id="mobile-menu-button" class="md:hidden text-2xl focus:outline-none">
@@ -51,7 +51,7 @@
              <a href="#services" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Layanan</a>
              <a href="#portfolio" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Portofolio</a>
              <a href="#contact" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Kontak</a>
-             <a href="#" class="block text-gray-800 hover:bg-orange-100 py-2 px-4">Login</a>
+             <a href="auth/login.php" class="block text-white bg-orange-600 hover:bg-orange-700 font-semibold py-2 px-4 rounded-lg transition duration-300 mt-2">Login</a>
         </div>
     </header>
 
