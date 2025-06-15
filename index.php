@@ -14,8 +14,8 @@
     <!-- Memanggil Font Awesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Memanggil File CSS Eksternal (Path Diperbaiki) -->
-    <link rel="stylesheet" href="assets/css/index.css">
+    <!-- Memanggil File CSS Eksternal (Path Diperbaiki dengan Cache Buster) -->
+    <link rel="stylesheet" href="assets/css/index.css?v=2">
 </head>
 <body class="bg-white">
     <!-- Header -->
@@ -257,7 +257,7 @@
         </div>
     </footer>
 
-    <!-- Memanggil File JavaScript Eksternal (Path Diperbaiki) -->
-    <script src="assets/js/index.js"></script>
+    <!-- Memanggil File JavaScript Eksternal (Path Diperbaiki dengan Cache Buster) -->
+    <script src="assets/js/index.js?v=2"></script>
 </body>
 </html>
