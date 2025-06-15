@@ -112,7 +112,7 @@
                 <!-- Layanan 1: Design & Build -->
                 <div class="service-card-new group scroll-reveal">
                     <div class="overflow-hidden rounded-lg">
-                        <img src="assets/img/layanan/layanan1.png" alt="Layanan Design & Build" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Design+%26+Build';">
+                        <img src="assets/img/layanan/layanan.png" alt="Layanan Design & Build" class="service-img" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FDBA74/1E293B?text=Design+%26+Build';">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-2">Design & Build</h3>
