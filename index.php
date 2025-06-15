@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Memanggil File CSS Eksternal (Path Diperbaiki dengan Cache Buster) -->
-    <link rel="stylesheet" href="assets/css/index.css?v=5">
+    <link rel="stylesheet" href="assets/css/index.css?v=6">
 </head>
 
 <body class="bg-white">
@@ -61,7 +61,7 @@
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
                 <span class="typing-text">PT. Azrina Solusi Indonesia</span>
             </h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Melayani dengan Hati, Bekerja dengan Ilmu. Solusi terpercaya untuk konstruksi dan kebutuhan bisnis Anda.</p>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Contractor –  Supplier – Consultant Perusahaan jasa kontruksi yang amanah, berkualitas, terkemuka yang menjadi solusi bagi masyarakat dan sebesar-besarnya dalam kepuasan pelanggan.</p>
             <a href="#contact" class="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-8 rounded-lg inline-block transition duration-300">Hubungi Kami</a>
         </div>
     </section>
@@ -130,16 +130,16 @@
                     <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                         <i class="fas fa-box-open text-orange-600 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-center">Supplier & Pengadaan</h3>
-                    <p class="text-gray-700 text-center text-sm">Menyediakan ATK, mesin, hingga alat rumah tangga untuk mendukung operasional bisnis Anda.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-center">Jasa renovasi</h3>
+                    <p class="text-gray-700 text-center text-sm">Merenovasi berbagai jenis bangunan dan menyesuaikan nye seperti keinginan anda.</p>
                 </div>
                  <!-- Layanan 4 -->
                 <div class="service-card bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition duration-300 scroll-reveal" style="transition-delay: 0.6s;">
                     <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                         <i class="fas fa-users-cog text-orange-600 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-center">Konsultan Manajemen</h3>
-                    <p class="text-gray-700 text-center text-sm">Memberikan panduan strategis dan solusi manajemen untuk meningkatkan efektivitas bisnis Anda.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-center">Konsultan gratis</h3>
+                    <p class="text-gray-700 text-center text-sm">Memberikan masukan arahan untuk mewujudkan rumah impian anda.</p>
                 </div>
             </div>
         </div>
