@@ -51,7 +51,7 @@ body {
 /* Latar belakang untuk bagian hero */
 .hero {
     background-color: #1f2937; 
-    background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('../img/background7.png');
+    background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('../img/background6.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -62,32 +62,25 @@ body {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
-
-/* Style untuk Kartu Layanan yang Baru */
-.service-card-new {
-    background-color: #f9fafb; /* bg-gray-50 */
-    border-radius: 0.75rem; /* rounded-xl */
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+/* BARU: Style untuk Galeri Layanan Model Flyer/Brosur */
+.service-flyer {
     transition: all 0.3s ease-in-out;
 }
 
-.service-card-new:hover {
-    transform: translateY(-8px);
+.service-flyer:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.service-flyer .service-img {
+    transition: box-shadow 0.3s ease;
+    cursor: zoom-in; /* Mengubah kursor jadi ikon zoom */
+}
+
+.service-flyer:hover .service-img {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-2xl */
 }
 
-.service-card-new .service-img {
-    width: 100%;
-    height: 200px; /* Atur tinggi gambar agar seragam */
-    object-fit: cover; /* Pastikan gambar mengisi area tanpa distorsi */
-    transition: transform 0.4s ease;
-    cursor: zoom-in; /* BARU: Mengubah kursor jadi ikon zoom */
-}
 
-.service-card-new:hover .service-img {
-    transform: scale(1.05); /* Efek zoom saat di-hover */
-}
 
 
 /* Transisi untuk item portofolio */
@@ -170,6 +163,7 @@ body {
     }
 }
 
+/* Style untuk Image Lightbox/Modal */
 #image-modal {
     display: none; /* Awalnya disembunyikan */
     opacity: 0;
