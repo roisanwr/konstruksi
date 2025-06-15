@@ -111,17 +111,17 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Layanan 1 -->
                 <div class="service-flyer group scroll-reveal">
-                    <img src="assets/img/layanan/layanan1.png" alt="Layanan Design Build & Renovasi" class="service-img w-full h-auto rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/e2e8f0/475569?text=Gambar+Layanan+1'; this.classList.remove('shadow-lg');">
+                    <img src="assets/img/layanan.png" alt="Layanan Design Build & Renovasi" class="service-img w-full h-auto rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/e2e8f0/475569?text=Gambar+Layanan+1'; this.classList.remove('shadow-lg');">
                 </div>
                 
                 <!-- Layanan 2 -->
                 <div class="service-flyer group scroll-reveal" style="transition-delay: 0.1s;">
-                     <img src="assets/img/layanan/layanan2.png" alt="Biaya Bangun Rumah" class="service-img w-full h-auto rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/e2e8f0/475569?text=Gambar+Layanan+2'; this.classList.remove('shadow-lg');">
+                     <img src="assets/img/layanan2.png" alt="Biaya Bangun Rumah" class="service-img w-full h-auto rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/e2e8f0/475569?text=Gambar+Layanan+2'; this.classList.remove('shadow-lg');">
                 </div>
                 
                 <!-- Layanan 3 -->
                 <div class="service-flyer group scroll-reveal" style="transition-delay: 0.2s;">
-                     <img src="assets/img/layanan/layanan3.png" alt="Layanan Welding & Aluminium" class="service-img w-full h-auto rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/e2e8f0/475569?text=Gambar+Layanan+3'; this.classList.remove('shadow-lg');">
+                     <img src="assets/img/layanan3.png" alt="Layanan Welding & Aluminium" class="service-img w-full h-auto rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/e2e8f0/475569?text=Gambar+Layanan+3'; this.classList.remove('shadow-lg');">
                 </div>
             </div>
         </div>
