@@ -207,7 +207,7 @@ button[type="submit"]:hover {
 }
 
 /* ========================================= */
-/* PERBAIKAN RESPONSIVE (MEDIA QUERY)    */
+/* PERBAIKAN RESPONSIVE (MEDIA QUERY)        */
 /* ========================================= */
 /* Untuk layar tablet dan di bawahnya */
 @media (max-width: 992px) {
@@ -222,12 +222,10 @@ button[type="submit"]:hover {
     }
 
     .form-panel {
-        /* Hapus efek kaca di mobile agar lebih ringan & jelas */
-        background: none;
-        backdrop-filter: none;
-        border-left: none;
-        /* Tambahkan sedikit overlay gelap agar form kontras dengan background */
-        background-color: rgba(0, 0, 0, 0.5);
+        /* PERUBAHAN: Efek kaca dipertahankan di mobile */
+        /* background-color diatur di atas dan tetap berlaku */
+        /* backdrop-filter juga tetap berlaku */
+        border-left: none; /* Hapus border karena tidak ada panel kiri */
     }
 }
 
