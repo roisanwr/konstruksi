@@ -33,7 +33,7 @@ body {
     background-color: #1f2937; 
 
     /* Gambar latar dengan path relatif yang benar dari folder css */
-    background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('../img/background1.png');
+    background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('../img/background7.png');
     
     /* Properti background lainnya dipisah agar lebih aman */
     background-repeat: no-repeat;
