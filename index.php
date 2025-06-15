@@ -273,7 +273,16 @@
             </div>
         </div>
     </footer>
-    
+
+   <!-- Tombol WhatsApp Melayang -->
+   <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20dari%20Azrina%20Construction."
+       id="whatsapp-float-button"
+       target="_blank"
+       rel="noopener noreferrer"
+       title="Hubungi Kami di WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
 
     <!-- Memanggil File JavaScript Eksternal (Path Diperbaiki dengan Cache Buster) -->
     <script src="assets/js/index.js?v=2"></script>
