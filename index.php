@@ -168,7 +168,7 @@
                 <!-- Proyek 1 -->
                 <div class="portfolio-item perumahan scroll-reveal">
                     <div class="relative overflow-hidden rounded-lg group">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Proyek Perumahan Modern" class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                        <img src="assets/img/background.png" alt="Proyek Perumahan Modern" class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
                             <h3 class="text-white text-xl font-semibold">Perumahan Modern</h3>
                             <p class="text-gray-300">Perumahan</p>
