@@ -41,8 +41,8 @@ if (isset($_GET['error'])) {
     <title>Login - Azrina Construction</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Arahkan ke file CSS yang baru dengan cache buster versi 2 -->
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/login_style.css?v=2">
+    <!-- Arahkan ke file CSS yang baru dengan cache buster versi 3 -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/login_style.css?v=3">
 </head>
 <body>
     <div class="login-container">

@@ -11,9 +11,9 @@
 
 body {
     height: 100vh;
-    background-color: #f0f2f5;
-    /* Ganti URL gambar ini dengan gambar arsitektur/konstruksi yang kamu suka */
-    background-image: url('https://images.unsplash.com/photo-1581092448348-7d57b7835930?auto=format&fit=crop&w=1280&q=80');
+    background-color: #333; /* Warna cadangan jika gambar gagal dimuat */
+    /* PERBAIKAN: Menggunakan gambar lokal untuk stabilitas */
+    background-image: url('../img/background3.png');
     background-size: cover;
     background-position: center;
     overflow: hidden;
