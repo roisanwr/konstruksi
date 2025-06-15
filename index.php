@@ -61,10 +61,7 @@
     <header class="header fixed w-full z-50 py-4 px-6 lg:px-16">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
-                <svg class="w-10 h-10 text-orange-600" viewBox="0 0 24 24" fill="currentColor">
                     <img src="/assets/img/azrina_logo.png" alt="Azrina Logo" class="w-full h-full">     
-                </svg>
-                <h1 class="ml-2 text-xl font-bold">Azrina</h1>
             </div>
             <nav class="hidden md:block">
                 <ul class="flex space-x-8">
