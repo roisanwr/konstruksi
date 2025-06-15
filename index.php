@@ -14,14 +14,14 @@
     <!-- Memanggil Font Awesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Memanggil File CSS Eksternal -->
-    <link rel="stylesheet" href="index.css">
+    <!-- Memanggil File CSS Eksternal (Path Diperbaiki) -->
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body class="bg-white">
     <!-- Header -->
     <header class="header fixed w-full z-50 py-4 px-6 lg:px-16 text-gray-800">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Logo Perusahaan (Diperbarui) -->
+            <!-- Logo Perusahaan (Path sudah benar) -->
             <div class="flex items-center">
                 <img src="assets/img/azrina_logo.png" alt="Logo Azrina" class="h-12 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x60/FFFFFF/000000?text=AZRINA';">     
             </div>
@@ -257,8 +257,7 @@
         </div>
     </footer>
 
-    <!-- Memanggil File JavaScript Eksternal -->
-    <script src="index.js"></script>
+    <!-- Memanggil File JavaScript Eksternal (Path Diperbaiki) -->
+    <script src="assets/js/index.js"></script>
 </body>
 </html>
-
