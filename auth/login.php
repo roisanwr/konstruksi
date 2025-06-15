@@ -1,46 +1,36 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // File: auth/login.php
-require_once '../config.php'; // Untuk BASE_URL dan session_start() yang mungkin sudah ada di config
 
-// Jika sudah login, langsung redirect ke dashboard
+// Pastikan BASE_URL sudah didefinisikan di config.php
+if (!defined('BASE_URL')) {
+    require_once __DIR__ . '/../config.php';
+}
+
+// (Logika PHP Anda tidak berubah)
 if (isset($_SESSION['user_id'])) {
     header('Location: ' . BASE_URL . 'dashboard.php');
     exit;
 }
 
-// Logika untuk menampilkan pesan error atau pesan sukses logout
-$display_message = ''; // Variabel untuk menampung pesan yang akan ditampilkan
-$message_class = '';   // Variabel untuk class CSS pesan (error atau sukses)
+$display_message = '';
+$message_class = '';
 
 if (isset($_GET['error'])) {
     $error_code = $_GET['error'];
-    // Ambil pesan spesifik dari session jika ada, jika tidak, pakai pesan default
     $session_error_message = $_SESSION['pesan_error_login'] ?? ''; 
-    $message_class = 'error-message'; // Default class untuk error
+    $message_class = 'error-message';
 
-    if ($error_code == 1) { // Username atau password salah
-        $display_message = !empty($session_error_message) ? $session_error_message : 'Username atau password salah!';
-    } elseif ($error_code == 2) { // Harus login dulu
-        $display_message = 'Anda harus login terlebih dahulu.';
-    } elseif ($error_code == 3) { // Field kosong
-        $display_message = !empty($session_error_message) ? $session_error_message : 'Username dan password wajib diisi.';
-    } elseif ($error_code == 4) { // Akun tidak aktif <<<--- INI YANG PENTING KITA PASTIKAN ADA
-        $display_message = !empty($session_error_message) ? $session_error_message : 'Akun Anda saat ini tidak aktif. Silakan hubungi Administrator.';
-    } elseif ($error_code == 99) { // Error sistem
-        $display_message = !empty($session_error_message) ? $session_error_message : 'Terjadi kesalahan pada sistem. Coba lagi nanti.';
-    } else {
-        $display_message = 'Terjadi kesalahan yang tidak diketahui.';
-    }
-    unset($_SESSION['pesan_error_login']); // Hapus pesan dari session setelah disiapkan
+    if ($error_code == 1) { $display_message = !empty($session_error_message) ? $session_error_message : 'Username atau password salah!'; }
+    elseif ($error_code == 2) { $display_message = 'Anda harus login terlebih dahulu.'; }
+    elseif ($error_code == 3) { $display_message = !empty($session_error_message) ? $session_error_message : 'Username dan password wajib diisi.'; }
+    elseif ($error_code == 4) { $display_message = !empty($session_error_message) ? $session_error_message : 'Akun Anda tidak aktif. Hubungi Administrator.'; }
+    elseif ($error_code == 99) { $display_message = !empty($session_error_message) ? $session_error_message : 'Terjadi kesalahan pada sistem.'; }
+    else { $display_message = 'Terjadi kesalahan yang tidak diketahui.'; }
+    unset($_SESSION['pesan_error_login']);
 
 } elseif (isset($_GET['logout']) && $_GET['logout'] == 1) {
     $display_message = "Anda telah berhasil logout.";
-    $message_class = 'success-message'; // Class untuk pesan sukses
+    $message_class = 'success-message';
 }
 ?>
 <!DOCTYPE html>
@@ -48,55 +38,54 @@ if (isset($_GET['error'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Proyek Jaya</title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/login_style.css"> <style>
-        /* Style untuk pesan error (kamu mungkin sudah punya ini) */
-        .error-message { 
-            background-color: #ffebee; /* Merah muda */
-            color: #c62828; /* Merah tua */
-            padding: 10px 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-            border: 1px solid #ef9a9a;
-        }
-        /* Style untuk pesan sukses (misalnya untuk logout) */
-        .success-message { 
-            background-color: #e8f5e9; /* Hijau muda */
-            color: #2e7d32; /* Hijau tua */
-            padding: 10px 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-            border: 1px solid #a5d6a7;
-        }
-    </style>
+    <title>Login - Azrina Construction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Arahkan ke file CSS yang baru dengan cache buster versi 2 -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/login_style.css?v=2">
 </head>
 <body>
-    <div class="session"> <div class="left">
-            <?php /* Gambar latar atau SVG jika ada di desainmu */ ?>
+    <div class="login-container">
+        <!-- Panel Kiri untuk Branding -->
+        <div class="branding-panel">
+            <div class="content">
+                <h1>Membangun Masa Depan.</h1>
+                <p>Presisi dalam setiap detail, kualitas dalam setiap proyek.</p>
+            </div>
         </div>
-        <form action="<?php echo BASE_URL; ?>auth/proses_login.php" method="POST">
-            <h4>Login ke <span>Proyek Jaya</span></h4>
-            <p>Selamat datang kembali! Silakan masukkan kredensial Anda.</p>
 
-            <?php if (!empty($display_message)): ?>
-                <div class="<?php echo $message_class; ?>"><?php echo $display_message; ?></div>
-            <?php endif; ?>
+        <!-- Panel Kanan untuk Form Login -->
+        <div class="form-panel">
+            <div class="form-box">
+                <a href="<?php echo BASE_URL; ?>index.php" class="back-to-home" title="Kembali ke Beranda">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <img src="<?php echo BASE_URL; ?>assets/img/azrina_logo.png" alt="Logo Azrina" class="login-logo" onerror="this.onerror=null;this.style.display='none';">
+                
+                <h2>Selamat Datang</h2>
+                <p class="subtitle">Silakan masuk untuk melanjutkan</p>
+                
+                <?php if (!empty($display_message)): ?>
+                    <div class="<?php echo $message_class; ?>"><?php echo htmlspecialchars($display_message); ?></div>
+                <?php endif; ?>
 
-            <div class="floating-label">
-                <input placeholder="Username" type="text" name="username" id="username" autocomplete="off" required>
-                <label for="username">Username:</label>
+                <form action="<?php echo BASE_URL; ?>auth/proses_login.php" method="POST" class="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-user icon"></i>
+                        <input type="text" name="username" id="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock icon"></i>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+
+                <div class="register-link">
+                    Belum punya akun? <a href="#">Hubungi Admin</a>
                 </div>
-            <div class="floating-label">
-                <input placeholder="Password" type="password" name="password" id="password" autocomplete="off" required>
-                <label for="password">Password:</label>
-                </div>
-            
-            <button type="submit">Login</button>
-            </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>
