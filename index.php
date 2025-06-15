@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PT. Azrina Solusi Indonesia - Konstruksi & Konsultan</title>
 
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+
     <!-- Memanggil Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
