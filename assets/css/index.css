@@ -27,9 +27,9 @@ body {
     color: #333333; /* Pastikan ikon menu juga berubah warna */
 }
 
-/* Latar belakang untuk bagian hero (URL Gambar Diperbarui ke file lokal) */
+/* Latar belakang untuk bagian hero (URL Gambar Diperbarui dengan path absolut) */
 .hero {
-    background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('assets/img/background.png') no-repeat center center/cover;
+    background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('/assets/img/background.png') no-repeat center center/cover;
 }
 
 /* Efek hover untuk kartu layanan */
