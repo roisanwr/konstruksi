@@ -1,5 +1,5 @@
-<footer class="bg-white dark:bg-gray-800 shadow-lg w-full">
-    <div class="max-w-7xl mx-auto py-4 px-4">
+<footer><!-- <footer class="bg-white dark:bg-gray-800 shadow-lg w-full"> -->
+    <!-- <div class="max-w-7xl mx-auto py-4 px-4">
         <div class="flex justify-between items-center">
             <div class="text-gray-500 dark:text-gray-400 text-sm">
                 &copy; <?php echo date('Y'); ?> User Dashboard. All rights reserved.
@@ -10,7 +10,7 @@
                 <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-sm">Contact</a>
             </div>
         </div>
-    </div>
+    </div> -->
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
