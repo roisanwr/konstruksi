@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Memanggil File CSS Eksternal (Path Diperbaiki dengan Cache Buster) -->
-    <link rel="stylesheet" href="assets/css/index.css?v=9">
+    <link rel="stylesheet" href="assets/css/index.css?v=10">
 </head>
 
 <body class="bg-white">
